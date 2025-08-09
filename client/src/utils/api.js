@@ -1,7 +1,9 @@
 // Utility functions for API calls
 
 // Base URL for API requests
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.PROD 
+  ? import.meta.env.VITE_API_URL || 'https://your-render-app-url.onrender.com/api'
+  : '/api';
 
 // Generic fetch function with authentication
 const fetchWithAuth = async (url, options = {}) => {
