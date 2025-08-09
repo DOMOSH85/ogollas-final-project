@@ -11,6 +11,7 @@ A comprehensive land registration and management system built with the MERN stac
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
+- [Deployment](#deployment)
 - [API Endpoints](#api-endpoints)
 - [Development Guidelines](#development-guidelines)
 - [License](#license)
@@ -181,6 +182,93 @@ VITE_FEATURE_LAND_MANAGEMENT=true
    ```
 
 3. The application will be available at `http://localhost:5000`
+
+## Deployment
+
+### Deploying to Render (Backend) and Vercel (Frontend)
+
+#### 1. Set up MongoDB Atlas
+1. Create a MongoDB Atlas account
+2. Create a new cluster
+3. Configure database access and network access
+4. Get your connection string
+
+#### 2. Deploy Backend to Render
+1. Push your code to GitHub
+2. Create a new Web Service on Render
+3. Connect your GitHub repository
+4. Configure the service:
+   - Name: `greenlands-api`
+   - Environment: `Node`
+   - Build command: `npm install`
+   - Start command: `npm start`
+   - Root directory: `server`
+   - Plan: Free
+
+5. Set Environment Variables in Render:
+   ```
+   NODE_ENV=production
+   PORT=8080
+   MONGO_URI=your_mongodb_atlas_connection_string
+   JWT_SECRET=your_secure_jwt_secret  # This is critical for JWT to work properly
+   CLIENT_URL=https://your-vercel-app-url.vercel.app
+   ```
+
+#### 3. Deploy Frontend to Vercel
+1. Create a new project on Vercel
+2. Import your GitHub repository
+3. Configure the project:
+   - Framework: `Vite`
+   - Root directory: `client`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Install command: `npm install`
+
+4. Set Environment Variables in Vercel:
+   ```
+   VITE_API_URL=https://your-render-app-url.onrender.com/api
+   ```
+
+#### 4. Update Environment Variables After Deployment
+After your applications are deployed:
+
+1. In Render, update the `CLIENT_URL` to match your Vercel frontend URL:
+   ```
+   CLIENT_URL=https://your-vercel-app-url.vercel.app
+   ```
+
+2. In Vercel, update the `VITE_API_URL` to match your Render backend URL:
+   ```
+   VITE_API_URL=https://your-render-app-url.onrender.com/api
+   ```
+
+#### 5. Important Notes for Deployment
+- Make sure to use a strong, secure `JWT_SECRET` in your Render environment variables
+- Ensure the `MONGO_URI` is correctly configured with your MongoDB Atlas connection string
+- Verify that the `CLIENT_URL` in Render matches your Vercel frontend URL
+- Make sure the `VITE_API_URL` in Vercel matches your Render backend URL
+
+### Troubleshooting Common Deployment Issues
+
+#### JWT Malformed Error
+If you encounter a "JsonWebTokenError: jwt malformed" error:
+
+1. Ensure the `JWT_SECRET` environment variable is set correctly in Render
+2. Make sure you're using a strong, secure secret (not the default development secret)
+3. Check that the token is being properly stored and retrieved in the client
+4. Verify that CORS is properly configured
+
+#### CORS Errors
+If you encounter CORS errors:
+
+1. Ensure the `CLIENT_URL` environment variable in Render matches your Vercel frontend URL
+2. Check that the CORS configuration in `server.js` is correct
+
+#### API Endpoints Not Found
+If API endpoints return 404 errors:
+
+1. Ensure the `VITE_API_URL` in Vercel matches your Render backend URL
+2. Verify that your Render backend is running correctly
 
 ## API Endpoints
 

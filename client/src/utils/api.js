@@ -9,6 +9,9 @@ const API_BASE_URL = import.meta.env.PROD
 const fetchWithAuth = async (url, options = {}) => {
   const token = localStorage.getItem('token');
   
+  // Log token for debugging (remove in production)
+  console.log('Token from localStorage:', token);
+  
   const config = {
     ...options,
     headers: {
@@ -18,7 +21,16 @@ const fetchWithAuth = async (url, options = {}) => {
     }
   };
   
+  // Log the full request for debugging
+  console.log('API Request:', {
+    url: `${API_BASE_URL}${url}`,
+    config
+  });
+  
   const response = await fetch(`${API_BASE_URL}${url}`, config);
+  
+  // Log the response for debugging
+  console.log('API Response:', response);
   
   // Handle 401 Unauthorized responses
   if (response.status === 401) {
