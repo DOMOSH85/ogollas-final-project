@@ -1,5 +1,6 @@
 const Land = require('../models/Land');
 const User = require('../models/User');
+const Subsidy = require('../models/Subsidy');
 
 // Get analytics data for government dashboard
 const getAnalytics = async (req, res) => {
@@ -80,8 +81,57 @@ const getAllLands = async (req, res) => {
   }
 };
 
+// Create a new subsidy (for government users)
+const createSubsidy = async (req, res) => {
+  try {
+    const { name, description, amount, status, farmer } = req.body;
+    
+    const subsidy = await Subsidy.create({
+      name,
+      description,
+      amount,
+      status: status || 'pending',
+      farmer: farmer || null // Allow government to specify farmer or leave as null for general subsidies
+    });
+    
+    res.status(201).json(subsidy);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update an existing subsidy (for government users)
+const updateSubsidy = async (req, res) => {
+  try {
+    const subsidy = await Subsidy.findById(req.params.id);
+    
+    if (!subsidy) {
+      return res.status(404).json({ message: 'Subsidy not found' });
+    }
+    
+    const { name, description, amount, status, governmentNotes } = req.body;
+    
+    subsidy.name = name || subsidy.name;
+    subsidy.description = description || subsidy.description;
+    subsidy.amount = amount || subsidy.amount;
+    subsidy.status = status || subsidy.status;
+    subsidy.governmentNotes = governmentNotes || subsidy.governmentNotes;
+    
+    if (status === 'approved' && !subsidy.approvalDate) {
+      subsidy.approvalDate = Date.now();
+    }
+    
+    const updatedSubsidy = await subsidy.save();
+    res.json(updatedSubsidy);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAnalytics,
   getAllFarmers,
-  getAllLands
+  getAllLands,
+  createSubsidy,
+  updateSubsidy
 };

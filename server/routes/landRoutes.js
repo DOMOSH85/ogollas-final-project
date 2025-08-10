@@ -7,7 +7,9 @@ const {
   updateLand,
   deleteLand,
   addCrop,
-  addWaterUsage
+  addWaterUsage,
+  addFertilizerUsage,
+  generateLandReport
 } = require('../controllers/landController');
 
 const router = express.Router();
@@ -27,5 +29,7 @@ router.route('/:id')
 
 router.route('/:id/crops').post(authorize('farmer'), addCrop);
 router.route('/:id/water').post(authorize('farmer'), addWaterUsage);
+router.route('/:id/fertilizer').post(authorize('farmer'), addFertilizerUsage);
+router.route('/:id/report').get(generateLandReport);
 
 module.exports = router;

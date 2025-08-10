@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { governmentAPI } from '../utils/api';
+import SubsidyManagement from './SubsidyManagement';
+import Messaging from './Messaging';
 
 const GovernmentDashboard = () => {
   const [analytics, setAnalytics] = useState(null);
@@ -177,6 +179,16 @@ const GovernmentDashboard = () => {
             </div>
           </div>
         </div>
+      </div>
+      
+      {/* Subsidy Management Section */}
+      <div className="mt-8">
+        <SubsidyManagement />
+      </div>
+      
+      {/* Messaging Section */}
+      <div className="mt-8">
+        <Messaging userType="government" />
       </div>
     </div>
   );

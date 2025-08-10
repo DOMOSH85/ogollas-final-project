@@ -14,6 +14,8 @@ import LandManagement from './components/LandManagement';
 import LandDetail from './components/LandDetail';
 import Analytics from './components/Analytics';
 import DetailedAnalytics from './components/DetailedAnalytics';
+import SubsidyApplication from './components/SubsidyApplication';
+import EquipmentManagement from './components/EquipmentManagement';
 
 // Context for authentication
 export const AuthContext = React.createContext();
@@ -73,18 +75,33 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              {/* Protected routes for farmers */}
               {user && user.role === 'farmer' && (
                 <>
                   <Route path="/dashboard" element={<FarmerDashboard />} />
                   <Route path="/land" element={<LandManagement />} />
                   <Route path="/land/:id" element={<LandDetail />} />
+                  <Route path="/subsidies/apply" element={<SubsidyApplication />} />
+                  <Route path="/equipment" element={<EquipmentManagement />} />
                 </>
               )}
+              {/* Protected routes for government users */}
               {user && user.role === 'government' && (
                 <>
                   <Route path="/dashboard" element={<GovernmentDashboard />} />
                   <Route path="/analytics" element={<Analytics />} />
                   <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
+                </>
+              )}
+              {/* Redirect for unauthorized access to dashboard */}
+              {!user && (
+                <>
+                  <Route path="/dashboard" element={<Home />} />
+                  <Route path="/land/*" element={<Home />} />
+                  <Route path="/subsidies/*" element={<Home />} />
+                  <Route path="/equipment/*" element={<Home />} />
+                  <Route path="/analytics/*" element={<Home />} />
+                  <Route path="/detailed-analytics/*" element={<Home />} />
                 </>
               )}
             </Routes>

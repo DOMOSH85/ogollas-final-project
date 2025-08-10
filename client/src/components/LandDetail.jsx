@@ -10,6 +10,8 @@ const LandDetail = () => {
   const [error, setError] = useState('');
   const [showCropForm, setShowCropForm] = useState(false);
   const [showWaterForm, setShowWaterForm] = useState(false);
+  const [showFertilizerForm, setShowFertilizerForm] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [cropData, setCropData] = useState({
     name: '',
     plantingDate: '',
@@ -20,6 +22,12 @@ const LandDetail = () => {
     date: '',
     amount: ''
   });
+  const [fertilizerData, setFertilizerData] = useState({
+    date: '',
+    type: '',
+    amount: ''
+  });
+  const [reportData, setReportData] = useState(null);
 
   useEffect(() => {
     fetchLand();
@@ -70,12 +78,43 @@ const LandDetail = () => {
     }
   };
 
+  const handleFertilizerSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const data = await landAPI.addFertilizerUsage(id, fertilizerData);
+      setLand(data);
+      setShowFertilizerForm(false);
+      setFertilizerData({
+        date: '',
+        type: '',
+        amount: ''
+      });
+    } catch (err) {
+      setError('Failed to add fertilizer usage');
+    }
+  };
+
+  const handleGenerateReport = async () => {
+    try {
+      const data = await landAPI.generateLandReport(id);
+      setReportData(data);
+      setShowReport(true);
+    } catch (err) {
+      setError('Failed to generate report');
+    }
+  };
+
   const onCropChange = (e) => {
     setCropData({ ...cropData, [e.target.name]: e.target.value });
   };
 
   const onWaterChange = (e) => {
     setWaterData({ ...waterData, [e.target.name]: e.target.value });
+  };
+
+  const onFertilizerChange = (e) => {
+    setFertilizerData({ ...fertilizerData, [e.target.name]: e.target.value });
   };
 
   if (loading) {
@@ -182,10 +221,16 @@ const LandDetail = () => {
               >
                 Record Water Usage
               </button>
-              <button className="w-full text-left p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition duration-300">
+              <button 
+                onClick={() => setShowFertilizerForm(!showFertilizerForm)}
+                className="w-full text-left p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition duration-300"
+              >
                 Add Fertilizer
               </button>
-              <button className="w-full text-left p-3 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition duration-300">
+              <button 
+                onClick={handleGenerateReport}
+                className="w-full text-left p-3 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition duration-300"
+              >
                 Generate Report
               </button>
             </div>
@@ -336,6 +381,149 @@ const LandDetail = () => {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {showFertilizerForm && (
+        <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 animate-fadeIn">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">Add Fertilizer Usage</h3>
+          <form onSubmit={handleFertilizerSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="fertilizerDate" className="block text-gray-700 font-medium mb-2">Date</label>
+              <input
+                type="date"
+                id="fertilizerDate"
+                name="date"
+                value={fertilizerData.date}
+                onChange={onFertilizerChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="type" className="block text-gray-700 font-medium mb-2">Fertilizer Type</label>
+              <input
+                type="text"
+                id="type"
+                name="type"
+                value={fertilizerData.type}
+                onChange={onFertilizerChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                placeholder="Enter fertilizer type"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="fertilizerAmount" className="block text-gray-700 font-medium mb-2">Amount (kg)</label>
+              <input
+                type="number"
+                id="fertilizerAmount"
+                name="amount"
+                value={fertilizerData.amount}
+                onChange={onFertilizerChange}
+                required
+                min="0"
+                step="0.1"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                placeholder="Enter amount in kg"
+              />
+            </div>
+            
+            <div className="md:col-span-2 flex justify-end space-x-4">
+              <button
+                type="button"
+                onClick={() => setShowFertilizerForm(false)}
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white font-medium rounded-lg transition duration-300"
+              >
+                Add Fertilizer Usage
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {showReport && reportData && (
+        <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 animate-fadeIn">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Land Report</h3>
+              <p className="text-gray-600">Generated on {new Date(reportData.reportDate).toLocaleDateString()}</p>
+            </div>
+            <button
+              onClick={() => setShowReport(false)}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-bold text-gray-800 mb-3">Land Information</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Name:</span>
+                  <span className="font-medium">{reportData.land.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Size:</span>
+                  <span className="font-medium">{reportData.land.size} acres</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Soil Type:</span>
+                  <span className="font-medium">{reportData.land.soilType}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Sustainability Score:</span>
+                  <span className="font-medium">{reportData.land.sustainabilityScore}%</span>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-bold text-gray-800 mb-3">Usage Summary</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Water Used:</span>
+                  <span className="font-medium">{reportData.totalWaterUsed}L</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Fertilizer Used:</span>
+                  <span className="font-medium">{reportData.totalFertilizerUsed}kg</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Pesticide Used:</span>
+                  <span className="font-medium">{reportData.totalPesticideUsed}L</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Crops Planted:</span>
+                  <span className="font-medium">{reportData.crops?.length || 0}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-6">
+            <h4 className="font-bold text-gray-800 mb-3">Farmer Information</h4>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Name:</span>
+                <span className="font-medium">{reportData.farmer.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Email:</span>
+                <span className="font-medium">{reportData.farmer.email}</span>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

@@ -35,7 +35,14 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      // Handle different types of errors
+      if (err.message) {
+        setError(err.message);
+      } else if (err.status === 400) {
+        setError('Invalid email or password. Please check your credentials and try again.');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

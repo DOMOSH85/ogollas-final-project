@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { landAPI } from '../utils/api';
+import Messaging from './Messaging';
 
 const FarmerDashboard = () => {
   const [lands, setLands] = useState([]);
@@ -176,6 +177,104 @@ const FarmerDashboard = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* New Features Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Government Services</h2>
+          <div className="space-y-4">
+            <Link to="/subsidies/apply" className="flex items-center justify-between p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition duration-300">
+              <div className="flex items-center">
+                <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                  <span className="text-blue-600 text-xl">💰</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-800">Apply for Subsidies</h3>
+                  <p className="text-gray-600 text-sm">Access government agricultural subsidies</p>
+                </div>
+              </div>
+              <span className="text-gray-400">→</span>
+            </Link>
+            
+            <Link to="/equipment" className="flex items-center justify-between p-4 bg-green-50 rounded-lg hover:bg-green-100 transition duration-300">
+              <div className="flex items-center">
+                <div className="bg-green-100 p-3 rounded-lg mr-4">
+                  <span className="text-green-600 text-xl">🚜</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-800">Equipment Management</h3>
+                  <p className="text-gray-600 text-sm">Add and monitor farming equipment</p>
+                </div>
+              </div>
+              <span className="text-gray-400">→</span>
+            </Link>
+          </div>
+        </div>
+        
+        <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Reports</h2>
+          <div className="space-y-4">
+            <div className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition duration-300 cursor-pointer" onClick={() => alert('Monthly report generation feature coming soon!')}>
+              <div className="flex items-center">
+                <div className="bg-purple-100 p-3 rounded-lg mr-4">
+                  <span className="text-purple-600 text-xl">📊</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-800">Monthly Report</h3>
+                  <p className="text-gray-600 text-sm">Generate monthly farming report</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition duration-300 cursor-pointer" onClick={() => alert('Sustainability report feature coming soon!')}>
+              <div className="flex items-center">
+                <div className="bg-yellow-100 p-3 rounded-lg mr-4">
+                  <span className="text-yellow-600 text-xl">🌱</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-800">Sustainability Report</h3>
+                  <p className="text-gray-600 text-sm">Generate sustainability metrics report</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Additional Resources */}
+      <div className="mt-8 bg-white p-6 rounded-2xl shadow-lg">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Farm Management Resources</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+            <h3 className="font-bold text-gray-800 mb-2">Weather Forecast</h3>
+            <p className="text-gray-600 text-sm">Stay updated with local weather conditions to plan your farming activities.</p>
+            <button className="mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium">
+              View Forecast →
+            </button>
+          </div>
+          
+          <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
+            <h3 className="font-bold text-gray-800 mb-2">Market Prices</h3>
+            <p className="text-gray-600 text-sm">Track current market prices for your crops to maximize profits.</p>
+            <button className="mt-2 text-green-600 hover:text-green-800 text-sm font-medium">
+              View Prices →
+            </button>
+          </div>
+          
+          <div className="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+            <h3 className="font-bold text-gray-800 mb-2">Expert Advice</h3>
+            <p className="text-gray-600 text-sm">Connect with agricultural experts for personalized guidance.</p>
+            <button className="mt-2 text-yellow-600 hover:text-yellow-800 text-sm font-medium">
+              Get Advice →
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Messaging Section */}
+      <div className="mt-8">
+        <Messaging userType="farmer" />
       </div>
     </div>
   );
