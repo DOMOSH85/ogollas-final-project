@@ -2,7 +2,7 @@
 
 // Base URL for API requests
 const API_BASE_URL = import.meta.env.PROD 
-  ? import.meta.env.VITE_API_URL || 'https://your-render-app-url.onrender.com/api'
+  ? import.meta.env.VITE_API_URL || 'https://sustainable-lands.onrender.com/api'
   : '/api';
 
 // Generic fetch function with authentication
