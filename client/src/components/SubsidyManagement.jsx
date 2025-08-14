@@ -10,27 +10,27 @@ const SubsidyManagement = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingSubsidy, setEditingSubsidy] = useState(null);
   return (
-  <div className="max-w-5xl mx-auto p-6 min-h-screen bg-black text-white dark:bg-black text-white">
+  <div className="max-w-5xl mx-auto p-6 min-h-screen bg-green-50 text-green-900">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-white">Subsidy Management</h1>
-        <p className="text-white">Manage and approve government subsidies</p>
+        <h1 className="text-3xl font-bold mb-2 text-green-800">Subsidy Management</h1>
+        <p className="text-green-700">Manage and approve government subsidies</p>
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 dark:bg-deep-green dark:border-green dark:text-light-green px-4 py-3 rounded mb-6">
+        <div className="bg-red-100 text-red-700 px-4 py-3 rounded mb-6">
           {error}
         </div>
       )}
 
       <button
-        className="bg-gradient-primary hover:bg-deep-green text-light-green font-medium py-2 px-4 rounded-lg transition duration-300 mb-4"
+        className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 mb-4"
         onClick={() => setShowCreateForm(!showCreateForm)}
       >
         {showCreateForm ? 'Cancel' : 'Create Subsidy'}
       </button>
 
       {showCreateForm && (
-        <form onSubmit={handleCreateSubsidy} className="p-6 rounded-2xl shadow-lg mb-8 bg-white text-black dark:bg-card-green dark:text-light-green">
+        <form onSubmit={handleCreateSubsidy} className="p-6 rounded-2xl mb-8 bg-white text-green-900">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
@@ -38,7 +38,7 @@ const SubsidyManagement = () => {
               value={subsidyData.name}
               onChange={handleChange}
               placeholder="Subsidy Name"
-              className="p-3 rounded-lg bg-deep-green text-light-green placeholder-green focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 dark:bg-card-green dark:text-light-green dark:placeholder-green"
+              className="p-3 rounded-lg bg-green-100 text-green-900 placeholder-green-700 focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
               required
             />
             <input
@@ -47,7 +47,7 @@ const SubsidyManagement = () => {
               value={subsidyData.description}
               onChange={handleChange}
               placeholder="Description"
-              className="p-3 rounded-lg bg-deep-green text-light-green placeholder-green focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 dark:bg-card-green dark:text-light-green dark:placeholder-green"
+              className="p-3 rounded-lg bg-green-100 text-green-900 placeholder-green-700 focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
               required
             />
             <input
@@ -56,20 +56,20 @@ const SubsidyManagement = () => {
               value={subsidyData.amount}
               onChange={handleChange}
               placeholder="Amount"
-              className="p-3 rounded-lg bg-deep-green text-light-green placeholder-green focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 dark:bg-card-green dark:text-light-green dark:placeholder-green"
+              className="p-3 rounded-lg bg-green-100 text-green-900 placeholder-green-700 focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
               required
             />
           </div>
           <button
             type="submit"
-            className="mt-4 bg-gradient-primary hover:bg-deep-green text-light-green font-medium py-2 px-4 rounded-lg transition duration-300"
+            className="mt-4 bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
           >
             Create Subsidy
           </button>
         </form>
       )}
 
-      <div className="p-6 rounded-2xl shadow-lg bg-white text-black dark:bg-card-green dark:text-light-green">
+  <div className="p-6 rounded-2xl bg-white text-green-900">
         <h2 className="text-2xl font-bold mb-4">Subsidies</h2>
         {loading ? (
           <div className="flex justify-center items-center h-32">
@@ -78,34 +78,34 @@ const SubsidyManagement = () => {
         ) : subsidies.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-5xl mb-4">🌱</div>
-            <h3 className="text-xl font-medium mb-2 text-black dark:text-light-green">No subsidies available</h3>
-            <p className="mb-4 text-gray-700 dark:text-green">Create a new subsidy to get started</p>
+            <h3 className="text-xl font-medium mb-2 text-green-800">No subsidies available</h3>
+            <p className="mb-4 text-green-700">Create a new subsidy to get started</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-green-200 dark:divide-green-800">
+            <table className="min-w-full divide-y divide-green-100">
               <thead>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-green uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-green uppercase tracking-wider">Description</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-green uppercase tracking-wider">Amount</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-green uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-green uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Description</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Amount</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-800 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white dark:bg-black-green divide-y divide-green-200 dark:divide-green-800">
+              <tbody className="bg-white divide-y divide-green-100">
                 {subsidies.map((subsidy) => (
-                  <tr key={subsidy._id} className="hover:bg-card-green dark:hover:bg-deep-green transition duration-200">
-                    <td className="px-6 py-4 whitespace-nowrap text-black dark:text-light-green">{subsidy.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-green dark:text-green">{subsidy.description}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-green dark:text-green">KES {subsidy.amount}</td>
+                  <tr key={subsidy._id} className="hover:bg-green-50 transition duration-200">
+                    <td className="px-6 py-4 whitespace-nowrap text-green-900">{subsidy.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-green-700">{subsidy.description}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-green-700">KES {subsidy.amount}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         subsidy.status === 'approved'
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          ? 'bg-green-100 text-green-800'
                           : subsidy.status === 'rejected'
-                          ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-yellow-100 text-yellow-800'
                       }`}>
                         {subsidy.status}
                       </span>

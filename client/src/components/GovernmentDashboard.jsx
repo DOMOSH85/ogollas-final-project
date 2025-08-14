@@ -69,32 +69,32 @@ const GovernmentDashboard = () => {
   }
 
   return (
-  <div className="animate-fadeIn min-h-screen bg-black text-white dark:bg-black text-white">
+  <div className="animate-fadeIn min-h-screen bg-green-50 text-green-900">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-white">Government Dashboard</h1>
-        <p className="text-white">Monitor regional sustainability and policy effectiveness</p>
+        <h1 className="text-3xl font-bold mb-2 text-green-800">Government Dashboard</h1>
+        <p className="text-green-700">Monitor regional sustainability and policy effectiveness</p>
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 dark:bg-deep-green dark:border-green dark:text-light-green px-4 py-3 rounded mb-6">
+        <div className="bg-red-100 text-red-700 px-4 py-3 rounded mb-6">
           {error}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="p-6 rounded-2xl shadow-lg bg-gradient-primary text-light-green dark:bg-gradient-primary dark:text-light-green">
+        <div className="p-6 rounded-2xl bg-white text-green-700">
           <h3 className="text-lg font-medium mb-2">Total Farmers</h3>
           <p className="text-3xl font-bold">{analytics?.totalFarmers || 0}</p>
         </div>
-        <div className="p-6 rounded-2xl shadow-lg bg-card-green text-green dark:bg-card-green dark:text-green">
+  <div className="p-6 rounded-2xl bg-green-100 text-green-800">
           <h3 className="text-lg font-medium mb-2">Total Land Parcels</h3>
           <p className="text-3xl font-bold">{analytics?.totalLands || 0}</p>
         </div>
-        <div className="p-6 rounded-2xl shadow-lg bg-card-green text-green dark:bg-card-green dark:text-green">
+  <div className="p-6 rounded-2xl bg-green-100 text-green-800">
           <h3 className="text-lg font-medium mb-2">Total Area</h3>
           <p className="text-3xl font-bold">{analytics?.totalLandArea || 0} acres</p>
         </div>
-        <div className="p-6 rounded-2xl shadow-lg bg-card-green text-green dark:bg-card-green dark:text-green">
+  <div className="p-6 rounded-2xl bg-green-100 text-green-800">
           <h3 className="text-lg font-medium mb-2">Avg Sustainability</h3>
           <p className="text-3xl font-bold">
             {analytics?.sustainabilityScores?.length > 0 
@@ -105,7 +105,7 @@ const GovernmentDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2 p-6 rounded-2xl shadow-lg bg-white text-black dark:bg-card-green dark:text-light-green">
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-white text-green-900">
           <h2 className="text-2xl font-bold mb-4">Sustainability Score Distribution</h2>
           <div className="h-64 flex items-end justify-between pt-8">
             {analytics?.sustainabilityScores?.map((score, index) => (
@@ -121,7 +121,7 @@ const GovernmentDashboard = () => {
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
+  <div className="bg-white p-6 rounded-2xl">
           <h2 className="text-2xl font-bold text-text-color mb-4">Soil Type Distribution</h2>
           <div className="space-y-4">
             {analytics?.soilDistribution?.map((soil, index) => (
@@ -143,7 +143,7 @@ const GovernmentDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
+        <div className="bg-white p-6 rounded-2xl">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-text-color">Recent Policies</h2>
             <button
@@ -154,14 +154,14 @@ const GovernmentDashboard = () => {
             </button>
           </div>
           {policyError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">{policyError}</div>
+            <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">{policyError}</div>
           )}
           <div className="space-y-4">
             {policies.length === 0 && (
               <div className="text-gray-500">No policies found.</div>
             )}
             {policies.map((policy) => (
-              <div key={policy._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition duration-300">
+              <div key={policy._id} className="rounded-lg p-4 transition duration-300 bg-green-50">
                 <h3 className="font-bold text-text-color">{policy.title}</h3>
                 <p className="text-text-color text-sm mt-2">{policy.description}</p>
                 <div className="flex justify-between items-center mt-3">
@@ -177,8 +177,8 @@ const GovernmentDashboard = () => {
           </div>
           {/* Modal for creating policy */}
           {policyModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-              <div className="bg-white dark:bg-card-green p-8 rounded-2xl shadow-lg w-full max-w-md relative">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-green-900 bg-opacity-20">
+              <div className="bg-white p-8 rounded-2xl w-full max-w-md relative">
                 <button
                   className="absolute top-2 right-2 text-gray-500 hover:text-black"
                   onClick={() => setPolicyModalOpen(false)}
@@ -194,7 +194,7 @@ const GovernmentDashboard = () => {
                       name="title"
                       value={policyForm.title}
                       onChange={handlePolicyInput}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-50"
                       required
                     />
                   </div>
@@ -204,7 +204,7 @@ const GovernmentDashboard = () => {
                       name="description"
                       value={policyForm.description}
                       onChange={handlePolicyInput}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-50"
                       required
                       rows="3"
                     ></textarea>
@@ -215,7 +215,7 @@ const GovernmentDashboard = () => {
                       name="status"
                       value={policyForm.status}
                       onChange={handlePolicyInput}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-50"
                     >
                       <option value="Draft">Draft</option>
                       <option value="Active">Active</option>
@@ -228,7 +228,7 @@ const GovernmentDashboard = () => {
                       name="effectiveDate"
                       value={policyForm.effectiveDate}
                       onChange={handlePolicyInput}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-green-50"
                     />
                   </div>
                   <button
@@ -244,7 +244,7 @@ const GovernmentDashboard = () => {
           )}
         </div>
         
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
+  <div className="bg-white p-6 rounded-2xl">
           <h2 className="text-2xl font-bold text-text-color mb-4">Recent Reports</h2>
           <div className="space-y-4">
             <div className="flex items-start">
