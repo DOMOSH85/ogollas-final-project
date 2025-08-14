@@ -1,34 +1,32 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext, ThemeContext } from '../App';
+import { AuthContext } from '../App';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme, setTheme } = useContext(ThemeContext);
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
+  // Theme toggle removed
 
   return (
-  <nav className="bg-navbar-bg text-black dark:bg-black-green dark:text-light-green">
+  <nav className="bg-navbar-bg text-navbar-text">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold flex items-center">
             <span className="animate-pulse">🌱</span>
-            <span className="ml-2">Greenlands</span>
+            <span className="ml-2 text-navbar-text dark:text-navbar-text-dark">Greenlands</span>
+           {/* ...existing code... */}
           </Link>
           
           {/* Hamburger menu for mobile */}
           <button 
-            className="md:hidden text-white focus:outline-none"
+            className="md:hidden text-navbar-text focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -40,16 +38,16 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             {user ? (
               <>
-                <span className="hidden md:inline">Welcome, {user.name}</span>
+                <span className="hidden md:inline text-navbar-text">Welcome, {user.name}</span>
                 <Link 
                   to="/dashboard" 
-                  className="hover:text-green-200 transition duration-300 ease-in-out transform hover:scale-105"
+                  className="hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-105 text-navbar-text"
                 >
                   Dashboard
                 </Link>
                 <button 
                   onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                  className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 text-white"
                 >
                   Logout
                 </button>
@@ -58,7 +56,7 @@ const Navbar = () => {
               <>
                 <Link 
                   to="/" 
-                  className="hover:text-green-200 transition duration-300 ease-in-out transform hover:scale-105"
+                  className="hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-105 text-navbar-text"
                 >
                   Home
                 </Link>
@@ -66,21 +64,7 @@ const Navbar = () => {
             )}
             
             {/* Theme Toggle */}
-            <button 
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              )}
-            </button>
+            {/* Theme toggle removed */}
           </div>
         </div>
         
@@ -90,10 +74,10 @@ const Navbar = () => {
             <div className="flex flex-col space-y-4">
               {user ? (
                 <>
-                  <span className="font-medium text-lg">Welcome, {user.name}</span>
+                  <span className="font-medium text-lg text-navbar-text">Welcome, {user.name}</span>
                   <Link
                     to="/dashboard"
-                    className="hover:text-green-200 transition duration-300 ease-in-out font-medium text-lg"
+                    className="hover:text-green-600 transition duration-300 ease-in-out font-medium text-lg text-navbar-text"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Dashboard
@@ -103,7 +87,7 @@ const Navbar = () => {
                       handleLogout();
                       setIsMenuOpen(false);
                     }}
-                    className="text-left bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition duration-300 ease-in-out w-full font-medium text-lg"
+                    className="text-left bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition duration-300 ease-in-out w-full font-medium text-lg text-white"
                   >
                     Logout
                   </button>
@@ -112,33 +96,13 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/"
-                    className="hover:text-green-200 transition duration-300 ease-in-out font-medium text-lg"
+                    className="hover:text-green-600 transition duration-300 ease-in-out font-medium text-lg text-navbar-text"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Home
                   </Link>
                 </>
               )}
-              
-              {/* Theme Toggle for Mobile */}
-              <button
-                onClick={() => {
-                  toggleTheme();
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 font-medium text-lg"
-              >
-                <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-                {theme === 'dark' ? (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                ) : (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                )}
-              </button>
             </div>
           </div>
         )}

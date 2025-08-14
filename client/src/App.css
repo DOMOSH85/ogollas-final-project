@@ -1,27 +1,25 @@
-/* Theme variables */
+/* Navbar text color utilities for theme contrast */
+.text-navbar-text {
+  color: #101010 !important; /* Black for light backgrounds */
+}
+.dark .text-navbar-text-dark {
+  color: #e6ffe6 !important; /* Light green for dark backgrounds */
+}
+.text-navbar-text-dark {
+  color: #101010 !important; /* fallback for non-dark mode */
+}
 
-/* Black & Green Theme */
-
+/* Green & White Theme */
 :root {
-  --bg-color: #f7fafc; /* Light background */
-  --text-color: #101010; /* Black text for light mode */
+  --bg-color: #ffffff; /* White background */
+  --text-color: #101010; /* Black text */
   --card-bg: #e6ffe6; /* Light green for cards */
   --border-color: #22c55e; /* Vivid green border */
-  --header-bg: linear-gradient(135deg, #22c55e 0%, #14532d 100%); /* Green gradient */
+  --header-bg: linear-gradient(135deg, #22c55e 0%, #b9ffb9 100%); /* Green gradient */
   --navbar-bg: #e6ffe6; /* Light green navbar */
   --footer-bg: #e6ffe6; /* Light green footer */
 }
 
-  
-.dark {
-  --bg-color: #101010; /* Black background */
-  --text-color: #e6ffe6; /* Light greenish text for contrast */
-  --card-bg: #1a2e1a; /* Deep green for cards */
-  --border-color: #2ecc40; /* Vivid green border */
-  --header-bg: linear-gradient(135deg, #14532d 0%, #052e16 100%); /* Green gradient */
-  --navbar-bg: #052e16; /* Dark green navbar */
-  --footer-bg: #052e16; /* Dark green footer */
-}
 
 body {
   background-color: var(--bg-color);
@@ -29,42 +27,19 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Utility classes for black & green palette */
-.bg-black-green {
-  background-color: #101010;
-}
-.dark .bg-black-green {
-  background-color: #101010;
-}
-.bg-deep-green {
-  background-color: #052e16;
-}
-.dark .bg-deep-green {
-  background-color: #052e16;
+
+/* Utility classes for green & white palette */
+.bg-navbar-bg {
+  background-color: #e6ffe6;
 }
 .bg-card-green {
   background-color: #e6ffe6;
 }
-.dark .bg-card-green {
-  background-color: #9fee9f;
-}
-.text-green {
-  color: #22c55e;
-}
-.dark .text-green {
-  color: #22c55e;
-}
-.text-light-green {
-  color: #101010;
-}
-.dark .text-light-green {
-  color: #e6ffe6;
+.text-navbar-text {
+  color: #101010 !important;
 }
 .border-green {
   border-color: #22c55e;
-}
-.dark .border-green {
-  border-color: #2ecc40;
 }
 
 /* Animation keyframes */
@@ -204,20 +179,12 @@ body {
   box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2);
 }
 
-/* Gradient backgrounds */
-
 
 .bg-gradient-primary {
-  background: linear-gradient(135deg, #22c55e 0%, #14532d 100%);
-}
-.dark .bg-gradient-primary {
-  background: linear-gradient(135deg, #14532d 0%, #052e16 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #b9ffb9 100%);
 }
 .bg-gradient-secondary {
   background: linear-gradient(135deg, #b9ffb9 0%, #22c55e 100%);
-}
-.dark .bg-gradient-secondary {
-  background: linear-gradient(135deg, #22c55e 0%, #14532d 100%);
 }
 
 /* Shadow utilities */
@@ -253,15 +220,8 @@ body {
   padding-bottom: 5rem;
 }
 
-/* Text utilities */
 
 .text-gradient {
-  background: linear-gradient(135deg, #22c55e 0%, #101010 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.dark .text-gradient {
   background: linear-gradient(135deg, #22c55e 0%, #b9ffb9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
