@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
+import './index.css';
 import { authAPI } from './utils/api';
 
 // Components
@@ -89,7 +89,7 @@ function App() {
         <Router>
           <div className={`min-h-screen ${theme === 'dark' ? 'bg-black text-white dark' : 'bg-white text-black'}`}>
             <Navbar />
-            <main className="container mx-auto px-4 py-8 text-white dark:text-white bg-black dark:bg-black" style={{ minHeight: '80vh' }}>
+            <main className="px-0 py-8 bg-transparent" style={{ minHeight: '80vh' }}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

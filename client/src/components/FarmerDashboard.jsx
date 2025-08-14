@@ -181,8 +181,8 @@ const FarmerDashboard = () => {
                   <span className="text-blue-600 text-xl">💰</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-text-color">Apply for Subsidies</h3>
-                  <p className="text-text-color text-sm">Access government agricultural subsidies</p>
+                  <h3 className="font-bold text-black-200">Apply for Subsidies</h3>
+                  <p className="text-black-200 text-sm">Access government agricultural subsidies</p>
                 </div>
               </div>
               <span className="text-gray-400">→</span>
@@ -194,8 +194,8 @@ const FarmerDashboard = () => {
                   <span className="text-green-600 text-xl">🚜</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-text-color">Equipment Management</h3>
-                  <p className="text-text-color text-sm">Add and monitor farming equipment</p>
+                  <h3 className="font-bold text-black-200">Equipment Management</h3>
+                  <p className="text-black-200 text-sm">Add and monitor farming equipment</p>
                 </div>
               </div>
               <span className="text-gray-400">→</span>
