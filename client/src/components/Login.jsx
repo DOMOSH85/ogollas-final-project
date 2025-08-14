@@ -51,17 +51,17 @@ const Login = () => {
   return (
     <div className="max-w-md mx-auto animate-fadeIn">
       <div className="bg-white p-8 rounded-2xl shadow-xl">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Login to Greenlands</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-text-color">Login to Greenlands</h2>
         
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 animate-shake">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 animate-shake font-medium">
             {error}
           </div>
         )}
         
         <form onSubmit={onSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
+            <label htmlFor="email" className="block text-text-color font-medium mb-2">Email</label>
             <input
               type="email"
               id="email"
@@ -69,13 +69,13 @@ const Login = () => {
               value={email}
               onChange={onChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
               placeholder="Enter your email"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">Password</label>
+            <label htmlFor="password" className="block text-text-color font-medium mb-2">Password</label>
             <input
               type="password"
               id="password"
@@ -83,7 +83,7 @@ const Login = () => {
               value={password}
               onChange={onChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
               placeholder="Enter your password"
             />
           </div>
@@ -98,9 +98,9 @@ const Login = () => {
         </form>
         
         <div className="mt-8 text-center">
-          <p className="text-gray-600">
+          <p className="text-text-color">
             Don't have an account?{' '}
-            <Link to="/register" className="text-green-600 hover:text-green-800 font-medium transition duration-300">
+            <Link to="/register" className="text-green-600 hover:text-green-800 font-medium transition duration-300 underline">
               Register here
             </Link>
           </p>

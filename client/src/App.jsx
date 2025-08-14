@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { authAPI } from './utils/api';
@@ -16,13 +16,31 @@ import Analytics from './components/Analytics';
 import DetailedAnalytics from './components/DetailedAnalytics';
 import SubsidyApplication from './components/SubsidyApplication';
 import EquipmentManagement from './components/EquipmentManagement';
+import Footer from './components/Footer';
 
 // Context for authentication
-export const AuthContext = React.createContext();
+export const AuthContext = createContext();
+export const ThemeContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState(() => {
+    // Check localStorage for theme preference
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light';
+  });
+  // Apply theme class to html element
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     // Check if user is logged in (from localStorage)
@@ -67,47 +85,50 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
-      <Router>
-        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-          <Navbar />
-          <main className="container mx-auto px-4 py-8">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              {/* Protected routes for farmers */}
-              {user && user.role === 'farmer' && (
-                <>
-                  <Route path="/dashboard" element={<FarmerDashboard />} />
-                  <Route path="/land" element={<LandManagement />} />
-                  <Route path="/land/:id" element={<LandDetail />} />
-                  <Route path="/subsidies/apply" element={<SubsidyApplication />} />
-                  <Route path="/equipment" element={<EquipmentManagement />} />
-                </>
-              )}
-              {/* Protected routes for government users */}
-              {user && user.role === 'government' && (
-                <>
-                  <Route path="/dashboard" element={<GovernmentDashboard />} />
-                  <Route path="/analytics" element={<Analytics />} />
-                  <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
-                </>
-              )}
-              {/* Redirect for unauthorized access to dashboard */}
-              {!user && (
-                <>
-                  <Route path="/dashboard" element={<Home />} />
-                  <Route path="/land/*" element={<Home />} />
-                  <Route path="/subsidies/*" element={<Home />} />
-                  <Route path="/equipment/*" element={<Home />} />
-                  <Route path="/analytics/*" element={<Home />} />
-                  <Route path="/detailed-analytics/*" element={<Home />} />
-                </>
-              )}
-            </Routes>
-          </main>
-        </div>
-      </Router>
+      <ThemeContext.Provider value={{ theme, setTheme }}>
+        <Router>
+          <div className={`min-h-screen ${theme === 'dark' ? 'bg-black text-white dark' : 'bg-white text-black'}`}>
+            <Navbar />
+            <main className="container mx-auto px-4 py-8 text-white dark:text-white bg-black dark:bg-black" style={{ minHeight: '80vh' }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                {/* Protected routes for farmers */}
+                {user && user.role === 'farmer' && (
+                  <>
+                    <Route path="/dashboard" element={<FarmerDashboard />} />
+                    <Route path="/land" element={<LandManagement />} />
+                    <Route path="/land/:id" element={<LandDetail />} />
+                    <Route path="/subsidies/apply" element={<SubsidyApplication />} />
+                    <Route path="/equipment" element={<EquipmentManagement />} />
+                  </>
+                )}
+                {/* Protected routes for government users */}
+                {user && user.role === 'government' && (
+                  <>
+                    <Route path="/dashboard" element={<GovernmentDashboard />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
+                  </>
+                )}
+                {/* Redirect for unauthorized access to dashboard */}
+                {!user && (
+                  <>
+                    <Route path="/dashboard" element={<Home />} />
+                    <Route path="/land/*" element={<Home />} />
+                    <Route path="/subsidies/*" element={<Home />} />
+                    <Route path="/equipment/*" element={<Home />} />
+                    <Route path="/analytics/*" element={<Home />} />
+                    <Route path="/detailed-analytics/*" element={<Home />} />
+                  </>
+                )}
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </ThemeContext.Provider>
     </AuthContext.Provider>
   );
 }

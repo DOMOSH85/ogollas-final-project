@@ -139,8 +139,8 @@ const Messaging = ({ userType }) => {
   return (
     <div className="bg-white p-6 rounded-2xl shadow-lg">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Messaging</h2>
-        <button 
+        <h2 className="text-2xl font-bold text-text-color">Messaging</h2>
+        <button
           onClick={() => setShowNewMessageForm(!showNewMessageForm)}
           className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
         >
@@ -173,10 +173,10 @@ const Messaging = ({ userType }) => {
 
       {showNewMessageForm && (
         <div className="mb-8 bg-gray-50 p-6 rounded-xl">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Send New Message</h3>
+          <h3 className="text-xl font-bold text-text-color mb-4">Send New Message</h3>
           <form onSubmit={handleSendMessage} className="space-y-4">
             <div>
-              <label htmlFor="recipientId" className="block text-gray-700 font-medium mb-2">
+              <label htmlFor="recipientId" className="block text-text-color font-medium mb-2">
                 Recipient
               </label>
               <select
@@ -185,7 +185,7 @@ const Messaging = ({ userType }) => {
                 value={newMessage.recipientId}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-text-color"
               >
                 <option value="">Select a recipient</option>
                 {recipients.map(recipient => (
@@ -197,7 +197,7 @@ const Messaging = ({ userType }) => {
             </div>
 
             <div>
-              <label htmlFor="channelType" className="block text-gray-700 font-medium mb-2">
+              <label htmlFor="channelType" className="block text-text-color font-medium mb-2">
                 Channel Type
               </label>
               <select
@@ -206,7 +206,7 @@ const Messaging = ({ userType }) => {
                 value={newMessage.channelType}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-text-color"
               >
                 {channels.filter(c => c.id !== 'all').map(channel => (
                   <option key={channel.id} value={channel.id}>
@@ -217,7 +217,7 @@ const Messaging = ({ userType }) => {
             </div>
 
             <div>
-              <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
+              <label htmlFor="subject" className="block text-text-color font-medium mb-2">
                 Subject
               </label>
               <input
@@ -227,13 +227,13 @@ const Messaging = ({ userType }) => {
                 value={newMessage.subject}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-text-color"
                 placeholder="Enter message subject"
               />
             </div>
 
             <div>
-              <label htmlFor="content" className="block text-gray-700 font-medium mb-2">
+              <label htmlFor="content" className="block text-text-color font-medium mb-2">
                 Message
               </label>
               <textarea
@@ -243,7 +243,7 @@ const Messaging = ({ userType }) => {
                 onChange={handleInputChange}
                 required
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-text-color"
                 placeholder="Enter your message"
               ></textarea>
             </div>
@@ -270,10 +270,10 @@ const Messaging = ({ userType }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Thread List */}
         <div className="lg:col-span-1 border-r border-gray-200 pr-6">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Conversations</h3>
+          <h3 className="text-lg font-bold text-text-color mb-4">Conversations</h3>
           <div className="space-y-2">
             {filteredThreads.map(thread => (
-              <div 
+              <div
                 key={thread.threadId}
                 className={`p-4 rounded-lg cursor-pointer hover:bg-gray-50 ${
                   selectedThread === thread.threadId ? 'bg-green-50 border-l-4 border-green-500' : 'bg-gray-50'
@@ -281,7 +281,7 @@ const Messaging = ({ userType }) => {
                 onClick={() => fetchThreadMessages(thread.threadId)}
               >
                 <div className="flex justify-between">
-                  <h4 className="font-bold text-gray-800">{thread.subject}</h4>
+                  <h4 className="font-bold text-text-color">{thread.subject}</h4>
                   {thread.unread && (
                     <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                       1
@@ -289,7 +289,7 @@ const Messaging = ({ userType }) => {
                   )}
                 </div>
                 <div className="flex justify-between mt-1">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-text-color">
                     {thread.lastMessage.sender.name} → {thread.lastMessage.recipient.name}
                   </p>
                   <span className="text-xs text-gray-500">
@@ -313,26 +313,26 @@ const Messaging = ({ userType }) => {
         <div className="lg:col-span-2">
           {selectedThread ? (
             <div>
-              <h3 className="text-lg font-bold text-gray-800 mb-4">
+              <h3 className="text-lg font-bold text-text-color mb-4">
                 {threadMessages[0]?.subject || 'Conversation'}
               </h3>
               <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
                 {threadMessages.map(message => (
-                  <div 
-                    key={message._id} 
+                  <div
+                    key={message._id}
                     className={`p-4 rounded-lg ${
                       message.sender.role === userType ? 'bg-green-50 ml-8' : 'bg-gray-50 mr-8'
                     }`}
                   >
                     <div className="flex justify-between">
-                      <span className="font-bold text-gray-800">
+                      <span className="font-bold text-text-color">
                         {message.sender.name} ({message.sender.role})
                       </span>
                       <span className="text-xs text-gray-500">
                         {new Date(message.createdAt).toLocaleString()}
                       </span>
                     </div>
-                    <p className="mt-2 text-gray-700">{message.content}</p>
+                    <p className="mt-2 text-text-color">{message.content}</p>
                     <div className="mt-2">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         {message.channelType.replace(/-/g, ' ')}
@@ -343,7 +343,7 @@ const Messaging = ({ userType }) => {
               </div>
               {/* Reply Form */}
               <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-bold text-gray-800 mb-3">Reply</h4>
+                <h4 className="font-bold text-text-color mb-3">Reply</h4>
                 <form onSubmit={handleSendMessage} className="space-y-3">
                   <textarea
                     name="content"
@@ -351,14 +351,14 @@ const Messaging = ({ userType }) => {
                     onChange={handleInputChange}
                     required
                     rows="3"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-text-color"
                     placeholder="Type your reply here..."
                   ></textarea>
                   <input
                     type="hidden"
                     name="recipientId"
-                    value={threadMessages[0]?.sender._id === threadMessages[0]?.recipient._id ? 
-                      threadMessages[0]?.sender._id : 
+                    value={threadMessages[0]?.sender._id === threadMessages[0]?.recipient._id ?
+                      threadMessages[0]?.sender._id :
                       threadMessages[0]?.recipient._id}
                   />
                   <input
@@ -378,7 +378,7 @@ const Messaging = ({ userType }) => {
               </div>
             </div>
           ) : (
-            <div className="h-64 flex items-center justify-center text-gray-500">
+            <div className="h-64 flex items-center justify-center text-text-color">
               Select a conversation to view messages
             </div>
           )}

@@ -78,8 +78,8 @@ const LandManagement = () => {
   return (
     <div className="animate-fadeIn">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Land Management</h1>
-        <p className="text-gray-600">Register and manage your land parcels</p>
+        <h1 className="text-3xl font-bold text-text-color mb-2">Land Management</h1>
+        <p className="text-text-color">Register and manage your land parcels</p>
       </div>
 
       {error && (
@@ -90,8 +90,8 @@ const LandManagement = () => {
 
       <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Your Land Parcels</h2>
-          <button 
+          <h2 className="text-2xl font-bold text-text-color">Your Land Parcels</h2>
+          <button
             onClick={() => setShowForm(!showForm)}
             className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
           >
@@ -101,11 +101,11 @@ const LandManagement = () => {
         
         {showForm && (
           <form onSubmit={onSubmit} className="mb-8 p-6 bg-gray-50 rounded-xl animate-fadeIn">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Add New Land Parcel</h3>
+            <h3 className="text-xl font-bold text-text-color mb-4">Add New Land Parcel</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Land Name</label>
+                <label htmlFor="name" className="block text-text-color font-medium mb-2">Land Name</label>
                 <input
                   type="text"
                   id="name"
@@ -113,13 +113,13 @@ const LandManagement = () => {
                   value={formData.name}
                   onChange={onChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                   placeholder="Enter land name"
                 />
               </div>
               
               <div>
-                <label htmlFor="size" className="block text-gray-700 font-medium mb-2">Size (acres)</label>
+                <label htmlFor="size" className="block text-text-color font-medium mb-2">Size (acres)</label>
                 <input
                   type="number"
                   id="size"
@@ -129,13 +129,13 @@ const LandManagement = () => {
                   required
                   min="0"
                   step="0.1"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                   placeholder="Enter size in acres"
                 />
               </div>
               
               <div>
-                <label htmlFor="address" className="block text-gray-700 font-medium mb-2">Location</label>
+                <label htmlFor="address" className="block text-text-color font-medium mb-2">Location</label>
                 <input
                   type="text"
                   id="address"
@@ -143,20 +143,20 @@ const LandManagement = () => {
                   value={formData.location.address}
                   onChange={onLocationChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                   placeholder="Enter location address"
                 />
               </div>
               
               <div>
-                <label htmlFor="soilType" className="block text-gray-700 font-medium mb-2">Soil Type</label>
+                <label htmlFor="soilType" className="block text-text-color font-medium mb-2">Soil Type</label>
                 <select
                   id="soilType"
                   name="soilType"
                   value={formData.soilType}
                   onChange={onChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                 >
                   <option value="clay">Clay</option>
                   <option value="sandy">Sandy</option>
@@ -182,9 +182,9 @@ const LandManagement = () => {
         {lands.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-5xl mb-4">🌱</div>
-            <h3 className="text-xl font-medium text-gray-700 mb-2">No land parcels yet</h3>
-            <p className="text-gray-600 mb-4">Get started by adding your first land parcel</p>
-            <button 
+            <h3 className="text-xl font-medium text-text-color mb-2">No land parcels yet</h3>
+            <p className="text-text-color mb-4">Get started by adding your first land parcel</p>
+            <button
               onClick={() => setShowForm(true)}
               className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
             >
@@ -194,12 +194,12 @@ const LandManagement = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {lands.map((land) => (
-              <div 
-                key={land._id} 
+              <div
+                key={land._id}
                 className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-gray-800">{land.name}</h3>
+                  <h3 className="text-xl font-bold text-text-color">{land.name}</h3>
                   <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                     {land.soilType}
                   </span>
@@ -207,22 +207,22 @@ const LandManagement = () => {
                 
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Size:</span>
+                    <span className="text-text-color">Size:</span>
                     <span className="font-medium">{land.size} acres</span>
                   </div>
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Location:</span>
+                    <span className="text-text-color">Location:</span>
                     <span className="font-medium">{land.location?.address || 'Not specified'}</span>
                   </div>
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Crops:</span>
+                    <span className="text-text-color">Crops:</span>
                     <span className="font-medium">{land.crops?.length || 0} planted</span>
                   </div>
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Sustainability:</span>
+                    <span className="text-text-color">Sustainability:</span>
                     <span className="font-medium">{land.sustainabilityScore}%</span>
                   </div>
                 </div>
@@ -242,21 +242,21 @@ const LandManagement = () => {
       </div>
 
       <div className="bg-white p-6 rounded-2xl shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Land Management Tips</h2>
+        <h2 className="text-2xl font-bold text-text-color mb-4">Land Management Tips</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
-            <h3 className="font-bold text-gray-800">Soil Testing</h3>
-            <p className="text-gray-600 text-sm mt-2">Regular soil testing helps maintain optimal nutrient levels</p>
+            <h3 className="font-bold text-text-color">Soil Testing</h3>
+            <p className="text-text-color text-sm mt-2">Regular soil testing helps maintain optimal nutrient levels</p>
           </div>
           
           <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
-            <h3 className="font-bold text-gray-800">Water Management</h3>
-            <p className="text-gray-600 text-sm mt-2">Implement efficient irrigation systems to conserve water</p>
+            <h3 className="font-bold text-text-color">Water Management</h3>
+            <p className="text-text-color text-sm mt-2">Implement efficient irrigation systems to conserve water</p>
           </div>
           
           <div className="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-400">
-            <h3 className="font-bold text-gray-800">Crop Rotation</h3>
-            <p className="text-gray-600 text-sm mt-2">Rotate crops to prevent soil depletion and pest buildup</p>
+            <h3 className="font-bold text-text-color">Crop Rotation</h3>
+            <p className="text-text-color text-sm mt-2">Rotate crops to prevent soil depletion and pest buildup</p>
           </div>
         </div>
       </div>

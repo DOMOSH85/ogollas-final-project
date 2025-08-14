@@ -49,14 +49,14 @@ const SubsidyApplication = () => {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <div className="mb-6">
-        <button 
+        <button
           onClick={() => navigate(-1)}
           className="flex items-center text-green-600 hover:text-green-800 font-medium mb-4 transition duration-300"
         >
           ← Back
         </button>
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Apply for Subsidy</h1>
-        <p className="text-gray-600">Submit your application for government agricultural subsidies</p>
+        <h1 className="text-3xl font-bold text-text-color mb-2">Apply for Subsidy</h1>
+        <p className="text-text-color">Submit your application for government agricultural subsidies</p>
       </div>
 
       {error && (
@@ -74,7 +74,7 @@ const SubsidyApplication = () => {
       <div className="bg-white p-6 rounded-2xl shadow-lg">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+            <label htmlFor="name" className="block text-text-color font-medium mb-2">
               Subsidy Name
             </label>
             <input
@@ -84,13 +84,13 @@ const SubsidyApplication = () => {
               value={subsidyData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
               placeholder="Enter subsidy name"
             />
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
+            <label htmlFor="description" className="block text-text-color font-medium mb-2">
               Description
             </label>
             <textarea
@@ -100,13 +100,13 @@ const SubsidyApplication = () => {
               onChange={handleChange}
               required
               rows="4"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
               placeholder="Describe your subsidy request"
             ></textarea>
           </div>
 
           <div>
-            <label htmlFor="amount" className="block text-gray-700 font-medium mb-2">
+            <label htmlFor="amount" className="block text-text-color font-medium mb-2">
               Requested Amount (KES)
             </label>
             <input
@@ -118,7 +118,7 @@ const SubsidyApplication = () => {
               required
               min="0"
               step="0.01"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
               placeholder="Enter requested amount"
             />
           </div>
@@ -143,8 +143,8 @@ const SubsidyApplication = () => {
       </div>
 
       <div className="mt-8 bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-400">
-        <h3 className="font-bold text-gray-800 mb-2">Subsidy Application Tips</h3>
-        <ul className="list-disc pl-5 space-y-1 text-gray-600">
+        <h3 className="font-bold text-text-color mb-2">Subsidy Application Tips</h3>
+        <ul className="list-disc pl-5 space-y-1 text-text-color">
           <li>Provide detailed information about your farming activities</li>
           <li>Include specific use cases for the requested funds</li>
           <li>Applications are typically processed within 7-14 business days</li>

@@ -32,32 +32,30 @@ const FarmerDashboard = () => {
   }
 
   return (
-    <div className="animate-fadeIn">
+  <div className="animate-fadeIn min-h-screen p-4 bg-white dark:bg-black-green">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Farmer Dashboard</h1>
-        <p className="text-gray-600">Manage your land and monitor sustainability metrics</p>
+  <h1 className="text-3xl font-bold mb-2 text-black dark:text-light-green">Farmer Dashboard</h1>
+  <p className="text-gray-700 dark:text-green">Manage your land and monitor sustainability metrics</p>
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <div className="bg-red-100 border border-red-400 text-red-700 dark:bg-deep-green dark:border-green dark:text-light-green px-4 py-3 rounded mb-6">
           {error}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="p-6 rounded-2xl shadow-lg bg-gray-100 text-black dark:bg-gradient-primary dark:text-light-green">
           <h3 className="text-lg font-medium mb-2">Total Lands</h3>
           <p className="text-3xl font-bold">{lands.length}</p>
         </div>
-        
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="p-6 rounded-2xl shadow-lg bg-white text-black dark:bg-card-green dark:text-green">
           <h3 className="text-lg font-medium mb-2">Total Area</h3>
           <p className="text-3xl font-bold">
             {lands.reduce((acc, land) => acc + land.size, 0)} acres
           </p>
         </div>
-        
-        <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-2xl shadow-lg">
+        <div className="p-6 rounded-2xl shadow-lg bg-white text-black dark:bg-card-green dark:text-green">
           <h3 className="text-lg font-medium mb-2">Avg Sustainability</h3>
           <p className="text-3xl font-bold">
             {lands.length > 0 
@@ -67,12 +65,12 @@ const FarmerDashboard = () => {
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
+  <div className="p-6 rounded-2xl shadow-lg mb-8 bg-white text-black dark:bg-card-green dark:text-light-green">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Your Land Parcels</h2>
-          <Link 
-            to="/land" 
-            className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+    <h2 className="text-2xl font-bold">Your Land Parcels</h2>
+          <Link
+            to="/land"
+            className="bg-gradient-primary hover:bg-deep-green text-light-green font-medium py-2 px-4 rounded-lg transition duration-300"
           >
             Add New Land
           </Link>
@@ -81,11 +79,11 @@ const FarmerDashboard = () => {
         {lands.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-5xl mb-4">🌱</div>
-            <h3 className="text-xl font-medium text-gray-700 mb-2">No land parcels yet</h3>
-            <p className="text-gray-600 mb-4">Get started by adding your first land parcel</p>
-            <Link 
-              to="/land" 
-              className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+            <h3 className="text-xl font-medium mb-2 text-black dark:text-light-green">No land parcels yet</h3>
+            <p className="mb-4 text-gray-700 dark:text-green">Get started by adding your first land parcel</p>
+            <Link
+              to="/land"
+              className="bg-gradient-primary hover:bg-deep-green text-light-green font-medium py-2 px-4 rounded-lg transition duration-300"
             >
               Add Land Parcel
             </Link>
@@ -93,38 +91,34 @@ const FarmerDashboard = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {lands.map((land) => (
-              <div 
-                key={land._id} 
-                className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition duration-300"
+              <div
+                key={land._id}
+                className="border rounded-xl p-6 hover:shadow-lg transition duration-300 bg-gray-100 text-black border-green dark:bg-deep-green dark:text-light-green"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-gray-800">{land.name}</h3>
-                  <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                  <h3 className="text-xl font-bold">{land.name}</h3>
+                  <span className="bg-card-green text-green text-xs font-medium px-2.5 py-0.5 rounded-full">
                     {land.soilType}
                   </span>
                 </div>
-                
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Size:</span>
+                    <span className="text-green">Size:</span>
                     <span className="font-medium">{land.size} acres</span>
                   </div>
-                  
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Crops:</span>
+                    <span className="text-green">Crops:</span>
                     <span className="font-medium">{land.crops?.length || 0} planted</span>
                   </div>
-                  
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Sustainability:</span>
+                    <span className="text-green">Sustainability:</span>
                     <span className="font-medium">{land.sustainabilityScore}%</span>
                   </div>
                 </div>
-                
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <Link 
-                    to={`/land/${land._id}`} 
-                    className="text-green-600 hover:text-green-800 font-medium text-sm"
+                <div className="mt-4 pt-4 border-t border-green">
+                  <Link
+                    to={`/land/${land._id}`}
+                    className="text-green hover:text-light-green font-medium text-sm"
                   >
                     View Details →
                   </Link>
@@ -136,44 +130,41 @@ const FarmerDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Recent Activities</h2>
+        <div className="p-6 rounded-2xl shadow-lg bg-white text-black dark:bg-card-green dark:text-light-green">
+          <h2 className="text-2xl font-bold mb-4">Recent Activities</h2>
           <div className="space-y-4">
             <div className="flex items-start">
-              <div className="bg-green-100 p-2 rounded-lg mr-4">
-                <span className="text-green-600">🌱</span>
+              <div className="bg-gray-100 p-2 rounded-lg mr-4 dark:bg-deep-green">
+                <span className="text-green">🌱</span>
               </div>
               <div>
-                <h3 className="font-medium text-gray-800">Soil Test Completed</h3>
-                <p className="text-gray-600 text-sm">Parcel A - Nitrogen levels optimal</p>
-                <p className="text-gray-500 text-xs mt-1">2 hours ago</p>
+                <h3 className="font-medium">Soil Test Completed</h3>
+                <p className="text-green text-sm">Parcel A - Nitrogen levels optimal</p>
+                <p className="text-xs mt-1 text-gray-700 dark:text-light-green">2 hours ago</p>
               </div>
             </div>
-            
             <div className="flex items-start">
-              <div className="bg-blue-100 p-2 rounded-lg mr-4">
-                <span className="text-blue-600">💧</span>
+              <div className="bg-gray-100 p-2 rounded-lg mr-4 dark:bg-deep-green">
+                <span className="text-green">💧</span>
               </div>
               <div>
-                <h3 className="font-medium text-gray-800">Water Usage Recorded</h3>
-                <p className="text-gray-600 text-sm">Parcel B - 500L used today</p>
-                <p className="text-gray-500 text-xs mt-1">1 day ago</p>
+                <h3 className="font-medium">Water Usage Recorded</h3>
+                <p className="text-green text-sm">Parcel B - 500L used today</p>
+                <p className="text-xs mt-1 text-gray-700 dark:text-light-green">1 day ago</p>
               </div>
             </div>
           </div>
         </div>
-        
-        <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Sustainability Tips</h2>
+        <div className="p-6 rounded-2xl shadow-lg bg-white text-black dark:bg-card-green dark:text-light-green">
+          <h2 className="text-2xl font-bold mb-4">Sustainability Tips</h2>
           <div className="space-y-4">
-            <div className="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-              <h3 className="font-medium text-gray-800">Crop Rotation</h3>
-              <p className="text-gray-600 text-sm">Rotate crops every season to maintain soil health</p>
+            <div className="p-4 bg-gray-100 rounded-lg border-l-4 border-green dark:bg-deep-green">
+              <h3 className="font-medium text-green">Crop Rotation</h3>
+              <p className="text-gray-800 text-sm dark:text-light-green">Rotate crops every season to maintain soil health</p>
             </div>
-            
-            <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
-              <h3 className="font-medium text-gray-800">Water Conservation</h3>
-              <p className="text-gray-600 text-sm">Use drip irrigation to reduce water usage by 30%</p>
+            <div className="p-4 bg-gray-100 rounded-lg border-l-4 border-green dark:bg-deep-green">
+              <h3 className="font-medium text-green">Water Conservation</h3>
+              <p className="text-gray-800 text-sm dark:text-light-green">Use drip irrigation to reduce water usage by 30%</p>
             </div>
           </div>
         </div>
@@ -182,7 +173,7 @@ const FarmerDashboard = () => {
       {/* New Features Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Government Services</h2>
+          <h2 className="text-2xl font-bold text-text-color mb-4">Government Services</h2>
           <div className="space-y-4">
             <Link to="/subsidies/apply" className="flex items-center justify-between p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition duration-300">
               <div className="flex items-center">
@@ -190,8 +181,8 @@ const FarmerDashboard = () => {
                   <span className="text-blue-600 text-xl">💰</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-800">Apply for Subsidies</h3>
-                  <p className="text-gray-600 text-sm">Access government agricultural subsidies</p>
+                  <h3 className="font-bold text-text-color">Apply for Subsidies</h3>
+                  <p className="text-text-color text-sm">Access government agricultural subsidies</p>
                 </div>
               </div>
               <span className="text-gray-400">→</span>
@@ -203,8 +194,8 @@ const FarmerDashboard = () => {
                   <span className="text-green-600 text-xl">🚜</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-800">Equipment Management</h3>
-                  <p className="text-gray-600 text-sm">Add and monitor farming equipment</p>
+                  <h3 className="font-bold text-text-color">Equipment Management</h3>
+                  <p className="text-text-color text-sm">Add and monitor farming equipment</p>
                 </div>
               </div>
               <span className="text-gray-400">→</span>
@@ -213,7 +204,7 @@ const FarmerDashboard = () => {
         </div>
         
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Reports</h2>
+          <h2 className="text-2xl font-bold text-text-color mb-4">Quick Reports</h2>
           <div className="space-y-4">
             <div className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition duration-300 cursor-pointer" onClick={() => alert('Monthly report generation feature coming soon!')}>
               <div className="flex items-center">
@@ -221,8 +212,8 @@ const FarmerDashboard = () => {
                   <span className="text-purple-600 text-xl">📊</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-800">Monthly Report</h3>
-                  <p className="text-gray-600 text-sm">Generate monthly farming report</p>
+                  <h3 className="font-bold text-text-color">Monthly Report</h3>
+                  <p className="text-text-color text-sm">Generate monthly farming report</p>
                 </div>
               </div>
             </div>
@@ -233,8 +224,8 @@ const FarmerDashboard = () => {
                   <span className="text-yellow-600 text-xl">🌱</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-800">Sustainability Report</h3>
-                  <p className="text-gray-600 text-sm">Generate sustainability metrics report</p>
+                  <h3 className="font-bold text-text-color">Sustainability Report</h3>
+                  <p className="text-text-color text-sm">Generate sustainability metrics report</p>
                 </div>
               </div>
             </div>
@@ -244,27 +235,27 @@ const FarmerDashboard = () => {
 
       {/* Additional Resources */}
       <div className="mt-8 bg-white p-6 rounded-2xl shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Farm Management Resources</h2>
+        <h2 className="text-2xl font-bold text-text-color mb-4">Farm Management Resources</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
-            <h3 className="font-bold text-gray-800 mb-2">Weather Forecast</h3>
-            <p className="text-gray-600 text-sm">Stay updated with local weather conditions to plan your farming activities.</p>
+            <h3 className="font-bold text-text-color mb-2">Weather Forecast</h3>
+            <p className="text-text-color text-sm">Stay updated with local weather conditions to plan your farming activities.</p>
             <button className="mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium">
               View Forecast →
             </button>
           </div>
           
           <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
-            <h3 className="font-bold text-gray-800 mb-2">Market Prices</h3>
-            <p className="text-gray-600 text-sm">Track current market prices for your crops to maximize profits.</p>
+            <h3 className="font-bold text-text-color mb-2">Market Prices</h3>
+            <p className="text-text-color text-sm">Track current market prices for your crops to maximize profits.</p>
             <button className="mt-2 text-green-600 hover:text-green-800 text-sm font-medium">
               View Prices →
             </button>
           </div>
           
           <div className="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-            <h3 className="font-bold text-gray-800 mb-2">Expert Advice</h3>
-            <p className="text-gray-600 text-sm">Connect with agricultural experts for personalized guidance.</p>
+            <h3 className="font-bold text-text-color mb-2">Expert Advice</h3>
+            <p className="text-text-color text-sm">Connect with agricultural experts for personalized guidance.</p>
             <button className="mt-2 text-yellow-600 hover:text-yellow-800 text-sm font-medium">
               Get Advice →
             </button>

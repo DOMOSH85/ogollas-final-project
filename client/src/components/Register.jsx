@@ -59,10 +59,10 @@ const Register = () => {
   return (
     <div className="max-w-2xl mx-auto animate-fadeIn">
       <div className="bg-white p-8 rounded-2xl shadow-xl">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Join Greenlands</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-text-color">Join Greenlands</h2>
         
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 animate-shake">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 animate-shake font-medium">
             {error}
           </div>
         )}
@@ -70,7 +70,7 @@ const Register = () => {
         <form onSubmit={onSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Full Name</label>
+              <label htmlFor="name" className="block text-text-color font-medium mb-2">Full Name</label>
               <input
                 type="text"
                 id="name"
@@ -78,13 +78,13 @@ const Register = () => {
                 value={name}
                 onChange={onChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                 placeholder="Enter your full name"
               />
             </div>
             
             <div>
-              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
+              <label htmlFor="email" className="block text-text-color font-medium mb-2">Email</label>
               <input
                 type="email"
                 id="email"
@@ -92,13 +92,13 @@ const Register = () => {
                 value={email}
                 onChange={onChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                 placeholder="Enter your email"
               />
             </div>
             
             <div>
-              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">Password</label>
+              <label htmlFor="password" className="block text-text-color font-medium mb-2">Password</label>
               <input
                 type="password"
                 id="password"
@@ -107,33 +107,33 @@ const Register = () => {
                 onChange={onChange}
                 required
                 minLength="6"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                 placeholder="Create a password"
               />
             </div>
             
             <div>
-              <label htmlFor="phoneNumber" className="block text-gray-700 font-medium mb-2">Phone Number</label>
+              <label htmlFor="phoneNumber" className="block text-text-color font-medium mb-2">Phone Number</label>
               <input
                 type="tel"
                 id="phoneNumber"
                 name="phoneNumber"
                 value={phoneNumber}
                 onChange={onChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                 placeholder="Enter your phone number"
               />
             </div>
             
             <div>
-              <label htmlFor="role" className="block text-gray-700 font-medium mb-2">Role</label>
+              <label htmlFor="role" className="block text-text-color font-medium mb-2">Role</label>
               <select
                 id="role"
                 name="role"
                 value={role}
                 onChange={onChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
               >
                 <option value="farmer">Farmer</option>
                 <option value="government">Government Official</option>
@@ -143,7 +143,7 @@ const Register = () => {
             {role === 'farmer' ? (
               <>
                 <div>
-                  <label htmlFor="location" className="block text-gray-700 font-medium mb-2">Farm Location</label>
+                  <label htmlFor="location" className="block text-text-color font-medium mb-2">Farm Location</label>
                   <input
                     type="text"
                     id="location"
@@ -151,13 +151,13 @@ const Register = () => {
                     value={location}
                     onChange={onChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                     placeholder="Enter your farm location"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="farmSize" className="block text-gray-700 font-medium mb-2">Farm Size (acres)</label>
+                  <label htmlFor="farmSize" className="block text-text-color font-medium mb-2">Farm Size (acres)</label>
                   <input
                     type="number"
                     id="farmSize"
@@ -167,14 +167,14 @@ const Register = () => {
                     required
                     min="0"
                     step="0.1"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                     placeholder="Enter farm size in acres"
                   />
                 </div>
               </>
             ) : (
               <div>
-                <label htmlFor="department" className="block text-gray-700 font-medium mb-2">Department</label>
+                <label htmlFor="department" className="block text-text-color font-medium mb-2">Department</label>
                 <input
                   type="text"
                   id="department"
@@ -182,7 +182,7 @@ const Register = () => {
                   value={department}
                   onChange={onChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 text-text-color"
                   placeholder="Enter your department"
                 />
               </div>
@@ -199,9 +199,9 @@ const Register = () => {
         </form>
         
         <div className="mt-8 text-center">
-          <p className="text-gray-600">
+          <p className="text-text-color">
             Already have an account?{' '}
-            <Link to="/login" className="text-green-600 hover:text-green-800 font-medium transition duration-300">
+            <Link to="/login" className="text-green-600 hover:text-green-800 font-medium transition duration-300 underline">
               Login here
             </Link>
           </p>
