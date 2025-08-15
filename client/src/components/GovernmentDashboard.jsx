@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { governmentAPI } from '../utils/api';
 import SubsidyManagement from './SubsidyManagement';
@@ -14,6 +14,9 @@ const GovernmentDashboard = () => {
   const [policyForm, setPolicyForm] = useState({ title: '', description: '', status: 'Draft', effectiveDate: '' });
   const [policyLoading, setPolicyLoading] = useState(false);
   const [policyError, setPolicyError] = useState('');
+  const [editPolicyId, setEditPolicyId] = useState(null);
+  const [notifyMessage, setNotifyMessage] = useState('');
+  const policiesSectionRef = useRef(null);
 
   useEffect(() => {
     fetchAnalytics();
@@ -44,19 +47,66 @@ const GovernmentDashboard = () => {
     setPolicyForm({ ...policyForm, [e.target.name]: e.target.value });
   };
 
-  const handleCreatePolicy = async (e) => {
+  const handleCreateOrEditPolicy = async (e) => {
     e.preventDefault();
     setPolicyLoading(true);
     setPolicyError('');
     try {
-      await governmentAPI.createPolicy(policyForm);
+      if (editPolicyId) {
+        await governmentAPI.updatePolicy(editPolicyId, policyForm);
+      } else {
+        await governmentAPI.createPolicy(policyForm);
+      }
       setPolicyModalOpen(false);
       setPolicyForm({ title: '', description: '', status: 'Draft', effectiveDate: '' });
+      setEditPolicyId(null);
       fetchPolicies();
+      setTimeout(() => {
+        if (policiesSectionRef.current) {
+          policiesSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 300);
     } catch (err) {
-      setPolicyError('Failed to create policy');
+      setPolicyError(editPolicyId ? 'Failed to update policy' : 'Failed to create policy');
     } finally {
       setPolicyLoading(false);
+    }
+  };
+
+  const handleEditPolicy = (policy) => {
+    setEditPolicyId(policy._id);
+    setPolicyForm({
+      title: policy.title,
+      description: policy.description,
+      status: policy.status,
+      effectiveDate: policy.effectiveDate ? policy.effectiveDate.substring(0, 10) : ''
+    });
+    setPolicyModalOpen(true);
+  };
+
+  const handleDeletePolicy = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this policy?')) return;
+    setPolicyLoading(true);
+    setPolicyError('');
+    try {
+      await governmentAPI.deletePolicy(id);
+      fetchPolicies();
+    } catch (err) {
+      setPolicyError('Failed to delete policy');
+    } finally {
+      setPolicyLoading(false);
+    }
+  };
+
+  const handleNotifyPolicy = async (id) => {
+    setNotifyMessage('');
+    try {
+      const res = await governmentAPI.notifyPolicy(id);
+      setNotifyMessage(res.message || 'Notification sent!');
+      setTimeout(() => setNotifyMessage(''), 3000);
+    } catch (err) {
+      setNotifyMessage('Failed to send notification');
+      setTimeout(() => setNotifyMessage(''), 3000);
     }
   };
 
@@ -143,7 +193,7 @@ const GovernmentDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-2xl">
+  <div className="bg-white p-6 rounded-2xl" ref={policiesSectionRef}>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-text-color">Recent Policies</h2>
             <button
@@ -172,21 +222,38 @@ const GovernmentDashboard = () => {
                     {policy.effectiveDate ? `Effective: ${new Date(policy.effectiveDate).toLocaleDateString()}` : 'No date'}
                   </span>
                 </div>
+                <div className="flex gap-2 mt-3">
+                  <button
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded"
+                    onClick={() => handleEditPolicy(policy)}
+                  >Edit</button>
+                  <button
+                    className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded"
+                    onClick={() => handleDeletePolicy(policy._id)}
+                  >Delete</button>
+                  <button
+                    className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white text-xs rounded"
+                    onClick={() => handleNotifyPolicy(policy._id)}
+                  >Notify</button>
+                </div>
               </div>
             ))}
+            {notifyMessage && (
+              <div className="mt-2 text-green-700 font-medium">{notifyMessage}</div>
+            )}
           </div>
-          {/* Modal for creating policy */}
+          {/* Modal for creating/editing policy */}
           {policyModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-green-900 bg-opacity-20">
               <div className="bg-white p-8 rounded-2xl w-full max-w-md relative">
                 <button
                   className="absolute top-2 right-2 text-gray-500 hover:text-black"
-                  onClick={() => setPolicyModalOpen(false)}
+                  onClick={() => { setPolicyModalOpen(false); setEditPolicyId(null); }}
                 >
                   &times;
                 </button>
-                <h3 className="text-xl font-bold mb-4 text-text-color">Create Policy</h3>
-                <form onSubmit={handleCreatePolicy}>
+                <h3 className="text-xl font-bold mb-4 text-text-color">{editPolicyId ? 'Edit Policy' : 'Create Policy'}</h3>
+                <form onSubmit={handleCreateOrEditPolicy}>
                   <div className="mb-4">
                     <label className="block text-text-color font-medium mb-1">Title</label>
                     <input
@@ -236,7 +303,7 @@ const GovernmentDashboard = () => {
                     className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
                     disabled={policyLoading}
                   >
-                    {policyLoading ? 'Creating...' : 'Create Policy'}
+                    {policyLoading ? (editPolicyId ? 'Saving...' : 'Creating...') : (editPolicyId ? 'Save Changes' : 'Create Policy')}
                   </button>
                 </form>
               </div>

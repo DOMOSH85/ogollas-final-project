@@ -43,13 +43,23 @@ app.use('/api/government', governmentRoutes);
 const subsidyRoutes = require('./routes/subsidyRoutes');
 app.use('/api/subsidies', subsidyRoutes);
 
+
 // Equipment routes
 const equipmentRoutes = require('./routes/equipmentRoutes');
 app.use('/api/equipment', equipmentRoutes);
 
+// Policy routes
+const policyRoutes = require('./routes/policyRoutes');
+app.use('/api/policies', policyRoutes);
+
+
 // Message routes
 const messageRoutes = require('./routes/messageRoutes');
 app.use('/api/messages', messageRoutes);
+
+// Contact routes
+const contactRoutes = require('./routes/contactRoutes');
+app.use('/api/contact', contactRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/greenlands-db')

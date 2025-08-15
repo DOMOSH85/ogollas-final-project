@@ -9,6 +9,47 @@ const SubsidyManagement = () => {
   const [error, setError] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingSubsidy, setEditingSubsidy] = useState(null);
+  const [subsidyData, setSubsidyData] = useState({ name: '', description: '', amount: '' });
+  const [creating, setCreating] = useState(false);
+
+  useEffect(() => {
+    fetchSubsidies();
+  }, []);
+
+  const fetchSubsidies = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await governmentAPI.getAllSubsidies ? await governmentAPI.getAllSubsidies() : await subsidyAPI.getAllSubsidies();
+      setSubsidies(data);
+    } catch (err) {
+      setError('Failed to fetch subsidies');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setSubsidyData({ ...subsidyData, [e.target.name]: e.target.value });
+  };
+
+  const handleCreateSubsidy = async (e) => {
+    e.preventDefault();
+    setCreating(true);
+    setError('');
+    try {
+      await governmentAPI.createSubsidy(subsidyData);
+      setShowCreateForm(false);
+      setSubsidyData({ name: '', description: '', amount: '' });
+      fetchSubsidies();
+    } catch (err) {
+      setError('Failed to create subsidy');
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  // ...existing code...
   return (
   <div className="max-w-5xl mx-auto p-6 min-h-screen bg-green-50 text-green-900">
       <div className="mb-6">
@@ -63,8 +104,9 @@ const SubsidyManagement = () => {
           <button
             type="submit"
             className="mt-4 bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+            disabled={creating}
           >
-            Create Subsidy
+            {creating ? 'Creating...' : 'Create Subsidy'}
           </button>
         </form>
       )}

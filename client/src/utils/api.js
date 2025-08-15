@@ -187,6 +187,25 @@ export const governmentAPI = {
     const response = await fetchWithAuth('/policies');
     return response.json();
   },
+  updatePolicy: async (id, policyData) => {
+    const response = await fetchWithAuth(`/policies/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(policyData)
+    });
+    return response.json();
+  },
+  deletePolicy: async (id) => {
+    const response = await fetchWithAuth(`/policies/${id}`, {
+      method: 'DELETE'
+    });
+    return response.json();
+  },
+  notifyPolicy: async (id) => {
+    const response = await fetchWithAuth(`/policies/${id}/notify`, {
+      method: 'POST'
+    });
+    return response.json();
+  },
   // Subsidy management
   createSubsidy: async (subsidyData) => {
     const response = await fetchWithAuth('/government/subsidies', {

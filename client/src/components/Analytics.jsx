@@ -126,29 +126,61 @@ const Analytics = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-2 p-6 rounded-2xl bg-white text-green-900">
-          <h2 className="text-2xl font-bold mb-4">Sustainability Trends</h2>
-          <div className="h-80 flex items-end justify-between pt-8">
-            <div className="flex flex-col items-center flex-1 px-2">
-              <div className="w-full bg-gradient-primary rounded-t-lg h-40"></div>
-              <span className="mt-2 text-green font-medium">Jan</span>
+          <h2 className="text-2xl font-bold mb-4">Sustainability Score Distribution</h2>
+          {analytics?.sustainabilityScores && analytics.sustainabilityScores.length > 0 ? (
+            <div className="h-80 flex items-end justify-between pt-8">
+              {analytics.sustainabilityScores.map((score, idx) => {
+                // score._id is the score range or value, score.count is the number
+                const maxCount = Math.max(...analytics.sustainabilityScores.map(s => s.count));
+                const barHeight = (score.count / maxCount) * 220;
+                return (
+                  <div key={idx} className="flex flex-col items-center flex-1 px-2 group">
+                    <div 
+                      className="w-full bg-gradient-primary rounded-t-lg transition-all duration-300 group-hover:bg-green-500"
+                      style={{ height: `${barHeight}px` }}
+                      title={`Score: ${score._id}, Parcels: ${score.count}`}
+                    ></div>
+                    <span className="mt-2 text-green font-medium">{score._id}</span>
+                    <span className="text-xs text-gray-500">{score.count}</span>
+                  </div>
+                );
+              })}
             </div>
-            <div className="flex flex-col items-center flex-1 px-2">
-              <div className="w-full bg-gradient-primary rounded-t-lg h-48"></div>
-              <span className="mt-2 text-green font-medium">Feb</span>
+          ) : (
+            <div className="text-gray-500">No sustainability score data available.</div>
+          )}
+          {/* Breakdown by range */}
+          {analytics?.sustainabilityScores && analytics.sustainabilityScores.length > 0 && (
+            <div className="mt-8">
+              <h3 className="text-lg font-bold mb-2">Score Range Breakdown</h3>
+              <div className="flex flex-wrap gap-4">
+                {(() => {
+                  // Group scores by range (0-20, 21-40, ...)
+                  const ranges = [
+                    { label: '0-20%', min: 0, max: 20 },
+                    { label: '21-40%', min: 21, max: 40 },
+                    { label: '41-60%', min: 41, max: 60 },
+                    { label: '61-80%', min: 61, max: 80 },
+                    { label: '81-100%', min: 81, max: 100 }
+                  ];
+                  const rangeCounts = ranges.map(r => ({
+                    ...r,
+                    count: analytics.sustainabilityScores.filter(s => {
+                      const val = typeof s._id === 'number' ? s._id : parseInt(s._id);
+                      return val >= r.min && val <= r.max;
+                    }).reduce((acc, s) => acc + s.count, 0)
+                  }));
+                  return rangeCounts.map((r, i) => (
+                    <div key={i} className="flex flex-col items-center bg-green-100 rounded-lg px-4 py-2">
+                      <span className="font-bold text-green-900">{r.label}</span>
+                      <span className="text-2xl font-bold text-green-700">{r.count}</span>
+                      <span className="text-xs text-gray-500">parcels</span>
+                    </div>
+                  ));
+                })()}
+              </div>
             </div>
-            <div className="flex flex-col items-center flex-1 px-2">
-              <div className="w-full bg-gradient-primary rounded-t-lg h-56"></div>
-              <span className="mt-2 text-green font-medium">Mar</span>
-            </div>
-            <div className="flex flex-col items-center flex-1 px-2">
-              <div className="w-full bg-gradient-primary rounded-t-lg h-64"></div>
-              <span className="mt-2 text-green font-medium">Apr</span>
-            </div>
-            <div className="flex flex-col items-center flex-1 px-2">
-              <div className="w-full bg-gradient-primary rounded-t-lg h-72"></div>
-              <span className="mt-2 text-green font-medium">May</span>
-            </div>
-          </div>
+          )}
         </div>
   <div className="p-6 rounded-2xl bg-white text-green-900">
           <h2 className="text-2xl font-bold mb-4">Policy Effectiveness</h2>

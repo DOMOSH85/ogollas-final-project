@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { landAPI } from '../utils/api';
+import { landAPI, governmentAPI } from '../utils/api';
 import Messaging from './Messaging';
 
 const FarmerDashboard = () => {
   const [lands, setLands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [policies, setPolicies] = useState([]);
+  const [policyLoading, setPolicyLoading] = useState(true);
+  const [policyError, setPolicyError] = useState('');
 
   useEffect(() => {
     fetchLands();
+    fetchPolicies();
   }, []);
+
+  const fetchPolicies = async () => {
+    try {
+      setPolicyLoading(true);
+      const data = await governmentAPI.getPolicies();
+      setPolicies(data);
+    } catch (err) {
+      setPolicyError('Failed to fetch policies');
+    } finally {
+      setPolicyLoading(false);
+    }
+  };
 
   const fetchLands = async () => {
     try {
@@ -168,6 +184,35 @@ const FarmerDashboard = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Policies Section */}
+      <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
+        <h2 className="text-2xl font-bold text-text-color mb-4">Government Policies</h2>
+        {policyLoading ? (
+          <div className="text-gray-500">Loading policies...</div>
+        ) : policyError ? (
+          <div className="text-red-600">{policyError}</div>
+        ) : policies.length === 0 ? (
+          <div className="text-gray-500">No policies found.</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {policies.map((policy) => (
+              <div key={policy._id} className="rounded-lg p-4 bg-green-50">
+                <h3 className="font-bold text-text-color">{policy.title}</h3>
+                <p className="text-text-color text-sm mt-2">{policy.description}</p>
+                <div className="flex justify-between items-center mt-2">
+                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${policy.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                    {policy.status}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {policy.effectiveDate ? `Effective: ${new Date(policy.effectiveDate).toLocaleDateString()}` : 'No date'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* New Features Section */}
