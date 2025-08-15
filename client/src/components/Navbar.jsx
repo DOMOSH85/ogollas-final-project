@@ -36,6 +36,9 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
+            <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-105 text-navbar-text">Home</Link>
+            <Link to="/features/marketplace" className="hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-105 text-navbar-text">Marketplace</Link>
+            <Link to="/contact" className="hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-105 text-navbar-text">Contact Us</Link>
             {user ? (
               <>
                 <span className="hidden md:inline text-navbar-text">Welcome, {user.name}</span>
@@ -52,19 +55,7 @@ const Navbar = () => {
                   Logout
                 </button>
               </>
-            ) : (
-              <>
-                <Link 
-                  to="/" 
-                  className="hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-105 text-navbar-text"
-                >
-                  Home
-                </Link>
-              </>
-            )}
-            
-            {/* Theme Toggle */}
-            {/* Theme toggle removed */}
+            ) : null}
           </div>
         </div>
         
@@ -72,7 +63,10 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
-              {user ? (
+              <Link to="/" className="hover:text-green-600 transition duration-300 ease-in-out font-medium text-lg text-navbar-text" onClick={() => setIsMenuOpen(false)}>Home</Link>
+              <Link to="/features/marketplace" className="hover:text-green-600 transition duration-300 ease-in-out font-medium text-lg text-navbar-text" onClick={() => setIsMenuOpen(false)}>Marketplace</Link>
+              <Link to="/contact" className="hover:text-green-600 transition duration-300 ease-in-out font-medium text-lg text-navbar-text" onClick={() => setIsMenuOpen(false)}>Contact Us</Link>
+              {user && (
                 <>
                   <span className="font-medium text-lg text-navbar-text">Welcome, {user.name}</span>
                   <Link
@@ -91,16 +85,6 @@ const Navbar = () => {
                   >
                     Logout
                   </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/"
-                    className="hover:text-green-600 transition duration-300 ease-in-out font-medium text-lg text-navbar-text"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Home
-                  </Link>
                 </>
               )}
             </div>

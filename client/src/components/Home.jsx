@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   return (
   <div className="min-h-screen bg-green-50 animate-fadeIn">
       {/* Hero Section */}
@@ -48,29 +49,66 @@ const Home = () => {
         <div className="px-4">
           <h2 className="text-4xl font-bold text-center mb-16 text-green-800">Our Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2">
+            <button
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2 text-left w-full focus:outline-none"
+              onClick={() => navigate('/features/land-monitoring')}
+            >
               <div className="text-5xl mb-6 text-green-500">🌱</div>
               <h3 className="text-2xl font-bold mb-4 text-green-800">Land Monitoring</h3>
               <p className="text-green-700">
-                Track soil health, water usage, and crop performance with real-time data analytics.
+                Monitor soil health, water usage, and crop growth in real time using smart sensors and data dashboards.
               </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2">
+            </button>
+            <button
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2 text-left w-full focus:outline-none"
+              onClick={() => navigate('/features/analytics-dashboard')}
+            >
               <div className="text-5xl mb-6 text-blue-500">📊</div>
               <h3 className="text-2xl font-bold mb-4 text-green-800">Analytics Dashboard</h3>
               <p className="text-green-700">
-                Government agencies can monitor regional sustainability trends and policy effectiveness.
+                Visualize sustainability trends, land usage, and policy impact with interactive analytics for smarter decisions.
               </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2">
+            </button>
+            <button
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2 text-left w-full focus:outline-none"
+              onClick={() => navigate('/features/collaborative-platform')}
+            >
               <div className="text-5xl mb-6 text-purple-500">🤝</div>
               <h3 className="text-2xl font-bold mb-4 text-green-800">Collaborative Platform</h3>
               <p className="text-green-700">
-                Facilitate communication between farmers and government for better policy implementation.
+                Connect farmers and government for seamless communication, resource sharing, and policy feedback.
               </p>
-            </div>
+            </button>
+            <button
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2 text-left w-full focus:outline-none"
+              onClick={() => navigate('/features/remote-sensing-iot')}
+            >
+              <div className="text-5xl mb-6 text-yellow-500">🛰️</div>
+              <h3 className="text-2xl font-bold mb-4 text-green-800">Remote Sensing & IoT</h3>
+              <p className="text-green-700">
+                Harness satellite imagery and IoT devices for precision agriculture and sustainable land management.
+              </p>
+            </button>
+            <button
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2 text-left w-full focus:outline-none"
+              onClick={() => navigate('/features/ai-insights')}
+            >
+              <div className="text-5xl mb-6 text-pink-500">🤖</div>
+              <h3 className="text-2xl font-bold mb-4 text-green-800">AI-Powered Insights</h3>
+              <p className="text-green-700">
+                Receive smart, actionable recommendations for land use and sustainability powered by machine learning.
+              </p>
+            </button>
+            <button
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2 text-left w-full focus:outline-none"
+              onClick={() => navigate('/features/marketplace')}
+            >
+              <div className="text-5xl mb-6 text-orange-500">🛒</div>
+              <h3 className="text-2xl font-bold mb-4 text-green-800">Marketplace (Coming Soon)</h3>
+              <p className="text-green-700">
+                A digital marketplace for farmers and governments to trade resources, services, and sustainable products.
+              </p>
+            </button>
           </div>
         </div>
       </section>

@@ -13,6 +13,8 @@ const Messaging = ({ userType }) => {
     content: '',
     channelType: 'general'
   });
+  // Separate reply state
+  const [replyContent, setReplyContent] = useState('');
   const [showNewMessageForm, setShowNewMessageForm] = useState(false);
   const [recipients, setRecipients] = useState([]);
   const [activeChannel, setActiveChannel] = useState('all');
@@ -68,6 +70,29 @@ const Messaging = ({ userType }) => {
       fetchMessages(); // Refresh messages
     } catch (err) {
       setError('Failed to send message');
+    }
+  };
+
+  // Handle reply send
+  const handleSendReply = async (e) => {
+    e.preventDefault();
+    if (!threadMessages[0]) return;
+    // Determine recipient: if current user is sender, reply to recipient, else reply to sender
+    const currentUserId = threadMessages[0].recipient._id === threadMessages[0].sender._id ? threadMessages[0].recipient._id : threadMessages[0].sender._id;
+    const replyPayload = {
+      recipientId: currentUserId,
+      subject: `Re: ${threadMessages[0].subject}`,
+      content: replyContent,
+      channelType: threadMessages[0].channelType,
+      threadId: threadMessages[0].threadId
+    };
+    try {
+      await messageAPI.sendMessage(replyPayload);
+      setReplyContent('');
+      fetchThreadMessages(threadMessages[0].threadId);
+      fetchMessages();
+    } catch (err) {
+      setError('Failed to send reply');
     }
   };
 
@@ -344,28 +369,16 @@ const Messaging = ({ userType }) => {
               {/* Reply Form */}
               <div className="mt-6 bg-gray-50 p-4 rounded-lg">
                 <h4 className="font-bold text-text-color mb-3">Reply</h4>
-                <form onSubmit={handleSendMessage} className="space-y-3">
+                <form onSubmit={handleSendReply} className="space-y-3">
                   <textarea
-                    name="content"
-                    value={newMessage.content}
-                    onChange={handleInputChange}
+                    name="replyContent"
+                    value={replyContent}
+                    onChange={e => setReplyContent(e.target.value)}
                     required
                     rows="3"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-text-color"
                     placeholder="Type your reply here..."
                   ></textarea>
-                  <input
-                    type="hidden"
-                    name="recipientId"
-                    value={threadMessages[0]?.sender._id === threadMessages[0]?.recipient._id ?
-                      threadMessages[0]?.sender._id :
-                      threadMessages[0]?.recipient._id}
-                  />
-                  <input
-                    type="hidden"
-                    name="subject"
-                    value={`Re: ${threadMessages[0]?.subject}`}
-                  />
                   <div className="flex justify-end">
                     <button
                       type="submit"

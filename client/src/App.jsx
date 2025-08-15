@@ -1,3 +1,4 @@
+import Contact from './components/Contact';
 import React, { useState, useEffect, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
@@ -16,6 +17,14 @@ import Analytics from './components/Analytics';
 import DetailedAnalytics from './components/DetailedAnalytics';
 import SubsidyApplication from './components/SubsidyApplication';
 import EquipmentManagement from './components/EquipmentManagement';
+
+// Feature pages
+import LandMonitoring from './components/features/LandMonitoring';
+import AnalyticsDashboard from './components/features/AnalyticsDashboard';
+import CollaborativePlatform from './components/features/CollaborativePlatform';
+import RemoteSensingIoT from './components/features/RemoteSensingIoT';
+import AIInsights from './components/features/AIInsights';
+import Marketplace from './components/features/Marketplace';
 import Footer from './components/Footer';
 
 // Context for authentication
@@ -123,6 +132,14 @@ function App() {
                     <Route path="/detailed-analytics/*" element={<Home />} />
                   </>
                 )}
+                {/* Feature detail routes */}
+                <Route path="/features/land-monitoring" element={<LandMonitoring />} />
+                <Route path="/features/analytics-dashboard" element={<AnalyticsDashboard />} />
+                <Route path="/features/collaborative-platform" element={<CollaborativePlatform />} />
+                <Route path="/features/remote-sensing-iot" element={<RemoteSensingIoT />} />
+                <Route path="/features/ai-insights" element={<AIInsights />} />
+                <Route path="/features/marketplace" element={<Marketplace />} />
+                <Route path="/contact" element={<Contact />} />
               </Routes>
             </main>
             <Footer />

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { landAPI } from '../utils/api';
 
+
+const ITEMS_PER_PAGE = 6;
+
 const LandManagement = () => {
   const [lands, setLands] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -15,7 +18,9 @@ const LandManagement = () => {
     },
     soilType: 'loamy'
   });
-  
+  const [editId, setEditId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,10 +54,21 @@ const LandManagement = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
     try {
-      const data = await landAPI.createLand(formData);
-      setLands([...lands, data]);
+      if (editId) {
+        // Edit mode
+        const updated = await landAPI.updateLand(editId, formData);
+        setLands(lands.map(l => l._id === editId ? updated : l));
+        setEditId(null);
+      } else {
+        // Create mode
+        const data = await landAPI.createLand(formData);
+        setLands([...lands, data]);
+        // If new item causes a new page, go to last page
+        if ((lands.length + 1) > currentPage * ITEMS_PER_PAGE) {
+          setCurrentPage(Math.ceil((lands.length + 1) / ITEMS_PER_PAGE));
+        }
+      }
       setShowForm(false);
       setFormData({
         name: '',
@@ -63,7 +79,28 @@ const LandManagement = () => {
         soilType: 'loamy'
       });
     } catch (err) {
-      setError('Failed to create land parcel');
+      setError(editId ? 'Failed to update land parcel' : 'Failed to create land parcel');
+    }
+  };
+
+  const onEdit = (land) => {
+    setEditId(land._id);
+    setFormData({
+      name: land.name,
+      size: land.size,
+      location: { address: land.location?.address || '' },
+      soilType: land.soilType || 'loamy',
+    });
+    setShowForm(true);
+  };
+
+  const onDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this land parcel?')) return;
+    try {
+      await landAPI.deleteLand(id);
+      setLands(lands.filter(l => l._id !== id));
+    } catch (err) {
+      setError('Failed to delete land parcel');
     }
   };
 
@@ -100,7 +137,7 @@ const LandManagement = () => {
         </div>
         {showForm && (
           <form onSubmit={onSubmit} className="mb-8 p-6 bg-gray-50 rounded-xl animate-fadeIn">
-            <h3 className="text-xl font-bold text-text-color mb-4">Add New Land Parcel</h3>
+            <h3 className="text-xl font-bold text-text-color mb-4">{editId ? 'Edit Land Parcel' : 'Add New Land Parcel'}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-text-color font-medium mb-2">Land Name</label>
@@ -167,12 +204,12 @@ const LandManagement = () => {
                 type="submit"
                 className="bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-lg transition duration-300"
               >
-                Add Land Parcel
+                {editId ? 'Update Land Parcel' : 'Add Land Parcel'}
               </button>
             </div>
           </form>
         )}
-        {lands.length === 0 ? (
+  {lands.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-5xl mb-4">🌱</div>
             <h3 className="text-xl font-medium text-text-color mb-2">No land parcels yet</h3>
@@ -185,47 +222,91 @@ const LandManagement = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {lands.map((land) => (
-              <div
-                key={land._id}
-                className="rounded-xl p-6 hover:shadow-lg transition duration-300 bg-white"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-text-color">{land.name}</h3>
-                  <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                    {land.soilType}
-                  </span>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-text-color">Size:</span>
-                    <span className="font-medium">{land.size} acres</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-text-color">Location:</span>
-                    <span className="font-medium">{land.location?.address || 'Not specified'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-text-color">Crops:</span>
-                    <span className="font-medium">{land.crops?.length || 0} planted</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-text-color">Sustainability:</span>
-                    <span className="font-medium">{land.sustainabilityScore}%</span>
-                  </div>
-                </div>
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <button
-                    onClick={() => navigate(`/land/${land._id}`)}
-                    className="text-green-600 hover:text-green-800 font-medium text-sm"
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {lands
+                .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                .map((land) => (
+                  <div
+                    key={land._id}
+                    className="rounded-xl p-6 hover:shadow-lg transition duration-300 bg-white"
                   >
-                    View Details →
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-xl font-bold text-text-color">{land.name}</h3>
+                      <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                        {land.soilType}
+                      </span>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-text-color">Size:</span>
+                        <span className="font-medium">{land.size} acres</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-text-color">Location:</span>
+                        <span className="font-medium">{land.location?.address || 'Not specified'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-text-color">Crops:</span>
+                        <span className="font-medium">{land.crops?.length || 0} planted</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-text-color">Sustainability:</span>
+                        <span className="font-medium">{land.sustainabilityScore}%</span>
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex gap-4">
+                      <button
+                        onClick={() => navigate(`/land/${land._id}`)}
+                        className="text-green-600 hover:text-green-800 font-medium text-sm"
+                      >
+                        View Details →
+                      </button>
+                      <button
+                        onClick={() => onEdit(land)}
+                        className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => onDelete(land._id)}
+                        className="text-red-600 hover:text-red-800 font-medium text-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            {/* Pagination Controls */}
+            <div className="flex justify-center mt-8">
+              <nav className="inline-flex -space-x-px">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className={`px-3 py-2 rounded-l-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  Prev
+                </button>
+                {Array.from({ length: Math.ceil(lands.length / ITEMS_PER_PAGE) }, (_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`px-3 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-green-100 ${currentPage === i + 1 ? 'bg-green-200 font-bold' : ''}`}
+                  >
+                    {i + 1}
                   </button>
-                </div>
-              </div>
-            ))}
-          </div>
+                ))}
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(Math.ceil(lands.length / ITEMS_PER_PAGE), p + 1))}
+                  disabled={currentPage === Math.ceil(lands.length / ITEMS_PER_PAGE) || lands.length === 0}
+                  className={`px-3 py-2 rounded-r-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 ${currentPage === Math.ceil(lands.length / ITEMS_PER_PAGE) || lands.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  Next
+                </button>
+              </nav>
+            </div>
+          </>
         )}
       </div>
       <div className="bg-white p-6 rounded-2xl" style={{boxShadow: '0 2px 16px 0 rgba(34,197,94,0.07)'}}>
