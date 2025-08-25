@@ -132,7 +132,7 @@ EMAIL_USER=
 EMAIL_PASSWORD=
 
 # Frontend URL
-CLIENT_URL=http://localhost:5173
+CLIENT_URL=https://ogollas-final-project.vercel.app/
 ```
 
 ### Frontend (.env in client directory)
