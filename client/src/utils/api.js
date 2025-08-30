@@ -1,3 +1,48 @@
+// Marketplace API
+export const marketplaceAPI = {
+  getItems: async () => {
+    const res = await fetch('/api/marketplace');
+    return res.json();
+  },
+  createItem: async (item, isFormData = false) => {
+    const token = localStorage.getItem('token');
+    let options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: item
+    };
+    if (!isFormData) {
+      options.headers['Content-Type'] = 'application/json';
+      options.body = JSON.stringify(item);
+    }
+    const res = await fetch('/api/marketplace', options);
+    return res.json();
+  },
+  updateItemStatus: async (id, status) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/marketplace/${id}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ status })
+    });
+    return res.json();
+  },
+  deleteItem: async (id) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/marketplace/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return res.json();
+  }
+};
 // Utility functions for API calls
 
 // Base URL for API requests

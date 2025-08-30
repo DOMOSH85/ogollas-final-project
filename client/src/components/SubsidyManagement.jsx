@@ -49,7 +49,27 @@ const SubsidyManagement = () => {
     }
   };
 
-  // ...existing code...
+  // Approve subsidy
+  const handleApproveSubsidy = async (id) => {
+    setError('');
+    try {
+      await governmentAPI.updateSubsidy(id, { status: 'approved' });
+      fetchSubsidies();
+    } catch (err) {
+      setError('Failed to approve subsidy');
+    }
+  };
+
+  // Reject subsidy
+  const handleRejectSubsidy = async (id) => {
+    setError('');
+    try {
+      await governmentAPI.updateSubsidy(id, { status: 'rejected' });
+      fetchSubsidies();
+    } catch (err) {
+      setError('Failed to reject subsidy');
+    }
+  };
   return (
   <div className="max-w-5xl mx-auto p-6 min-h-screen bg-green-50 text-green-900">
       <div className="mb-6">

@@ -24,7 +24,7 @@ import AnalyticsDashboard from './components/features/AnalyticsDashboard';
 import CollaborativePlatform from './components/features/CollaborativePlatform';
 import RemoteSensingIoT from './components/features/RemoteSensingIoT';
 import AIInsights from './components/features/AIInsights';
-import Marketplace from './components/features/Marketplace';
+import Marketplace from './components/Marketplace';
 import Footer from './components/Footer';
 
 // Context for authentication
@@ -111,6 +111,7 @@ function App() {
                     <Route path="/land/:id" element={<LandDetail />} />
                     <Route path="/subsidies/apply" element={<SubsidyApplication />} />
                     <Route path="/equipment" element={<EquipmentManagement />} />
+                    <Route path="/marketplace" element={<Marketplace />} />
                   </>
                 )}
                 {/* Protected routes for government users */}
@@ -119,6 +120,7 @@ function App() {
                     <Route path="/dashboard" element={<GovernmentDashboard />} />
                     <Route path="/analytics" element={<Analytics />} />
                     <Route path="/detailed-analytics" element={<DetailedAnalytics />} />
+                    <Route path="/marketplace" element={<Marketplace />} />
                   </>
                 )}
                 {/* Redirect for unauthorized access to dashboard */}
@@ -138,6 +140,7 @@ function App() {
                 <Route path="/features/collaborative-platform" element={<CollaborativePlatform />} />
                 <Route path="/features/remote-sensing-iot" element={<RemoteSensingIoT />} />
                 <Route path="/features/ai-insights" element={<AIInsights />} />
+                {/* Marketplace public route for unauthenticated users */}
                 <Route path="/features/marketplace" element={<Marketplace />} />
                 <Route path="/contact" element={<Contact />} />
               </Routes>

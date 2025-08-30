@@ -1,22 +1,29 @@
-// ...existing code...
-// ...existing code...
+
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+
 // Load environment variables
 dotenv.config();
 
 const app = express();
+// Marketplace routes
+const marketplaceRoutes = require('./routes/marketplaceRoutes');
+app.use('/api/marketplace', marketplaceRoutes);
 const PORT = process.env.PORT || 8080;
+
 
 // Middleware
 app.use(express.json());
+// Serve uploaded images statically
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Configure CORS for production
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: process.env.CLIENT_URL || 'https://ogollas-final-project.vercel.app',
   credentials: true,
   optionsSuccessStatus: 200
 };
