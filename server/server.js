@@ -69,7 +69,7 @@ const contactRoutes = require('./routes/contactRoutes');
 app.use('/api/contact', contactRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/greenlands-db')
+mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://greenland:DANTE6179@cluster0.hiwcwhe.mongodb.net/greenlands-db')
 .then(() => {
   console.log('Connected to MongoDB');
 })
